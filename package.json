@@ -1,0 +1,31 @@
+{
+  "name": "st_node",
+  "version": "0.0.1",
+  "description": "ST Node",
+  "author": "Unlevel Team <unlevelteam@gmail.com>",
+  "bin": {
+    "module-name": "./bin/module-name"
+  },
+  "scripts": {
+    "start": "node --harmony lib/STNodeEngine.js"
+  },
+  "main": "lib/nodeEngine/ST_Node.js",
+  "keywords": [
+    "st_node",
+    "st",
+    "IoT",
+    "SomeThings"
+  ],
+  "dependencies": {
+	"portscanner" : "~1.0.0",
+    "cylon": "^1.3.0",
+    "cylon-keyboard": "^0.16.0",
+    "socket.io-client": "~1.4"
+  },
+  "devDependencies": {},
+  "preferGlobal": false,
+  "private": true,
+  "subdomain": "st_node",
+  "analyze": true,
+  "license": "MIT"
+}

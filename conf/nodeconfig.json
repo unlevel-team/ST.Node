@@ -1,0 +1,80 @@
+{
+	"type": "Config",
+	"typeExtra": "Node",
+	
+	"node" : {
+		"nodeID": "Node01",
+		"type": "STNode"
+			
+	},
+	
+	"server": {
+		"netLocation" : "127.0.0.1",
+		"controlPort": 5673
+	},
+	
+	
+	"sensors" : [
+        {
+		"id" : "sensorService01",
+		"type" : "vsensor",
+		"options" : {}
+		},
+		
+        {
+		"id" : "sensorMove01",
+		"type" : "cylonjs",
+		"options" : {}
+		},
+		
+        {
+		"id" : "sensorKeyb01",
+		"type" : "cylonjs",
+		"loopTime" : 300,
+		"options" : {
+			"sensorEngineURL" : "../stSensors/stSensor_Keyboard.js"
+			}
+		},
+		
+		{
+		"id" : "dummy01",
+		"type" : "vsensor",
+		"loopTime" : 300,
+		"options" : {
+			"sensorEngineURL" : "../stSensors/stSensor_Dummy01.js",
+			"ticks" : 3,
+			"showTime" : true,
+			"showDeltaTime" : true
+			}
+		}
+	],
+	
+	
+	"actuators" : [
+        {
+		"id" : "vlcPlayer01",
+		"type" : "vactuator",
+		"options" : {}
+		},
+		
+        {
+		"id" : "actuatorMotor01",
+		"type" : "cylonjs",
+		"options" : {}
+		},
+		
+		{
+		"id" : "dummy01",
+		"type" : "vactuator",
+		"loopTime" : 150,
+		"options" : {
+			"actuatorEngineURL" : "../stActuators/stActuator_Dummy01.js",
+			"ticks" : 2,
+			"showTime" : true,
+			"showDeltaTime" : true
+			}
+		}
+	]
+
+
+}
