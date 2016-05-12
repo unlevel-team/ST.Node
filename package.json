@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "ST Node",
   "author": "Unlevel Team <unlevelteam@gmail.com>",
-  "bin": {
-    "module-name": "./bin/module-name"
-  },
   "scripts": {
     "start": "node --harmony lib/STNodeEngine.js"
   },
@@ -14,7 +11,9 @@
     "st_node",
     "st",
     "IoT",
-    "SomeThings"
+    "SomeThings",
+    "sensor",
+    "actuator"
   ],
   "dependencies": {
 	"portscanner" : "~1.0.0",
