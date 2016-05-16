@@ -13,17 +13,12 @@
 
 */
 
-// Gulp tricks
+// require our modules
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _sourceMapSupport = require('source-map-support');
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-(0, _sourceMapSupport.install)();
-
-// require our modules
 var NodeConfiguration = require('./NodeConfiguration.js');
 
 var SensorsManager = require('./SensorsManager.js').SensorsManager;
@@ -64,10 +59,13 @@ var STNode = function () {
 	_createClass(STNode, [{
 		key: 'init_Node',
 		value: function init_Node() {
-			this.loadConfig();
 
-			this.init_SensorsManager();
-			this.init_ActuatorsManager();
+			var node = this;
+
+			node.loadConfig();
+
+			node.init_SensorsManager();
+			node.init_ActuatorsManager();
 		}
 
 		/**
@@ -78,18 +76,20 @@ var STNode = function () {
 		key: 'loadConfig',
 		value: function loadConfig() {
 
-			if (this.nodeConfiguration != null) {
+			var stNode = this;
+
+			if (stNode.nodeConfiguration != null) {
 				throw 'Node configuration is loaded.';
 			}
 
 			// --- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
 			// Node configuration
 			// -------------------------------------------------------------------------------|\/|---
-			this.nodeConfiguration = new NodeConfiguration();
+			stNode.nodeConfiguration = new NodeConfiguration();
 
-			this.nodeConfiguration.readFile();
+			stNode.nodeConfiguration.readFile();
 
-			if (this.nodeConfiguration.config == null) {
+			if (stNode.nodeConfiguration.config == null) {
 
 				console.log('Error in configuration'); // TODO REMOVE DEBUG LOG
 
@@ -98,7 +98,7 @@ var STNode = function () {
 			}
 			console.log('<···> ST Node'); // TODO REMOVE DEBUG LOG
 			console.log(' <···> nodeConfiguration'); // TODO REMOVE DEBUG LOG
-			console.log(this.nodeConfiguration.config); // TODO REMOVE DEBUG LOG
+			console.log(stNode.nodeConfiguration.config); // TODO REMOVE DEBUG LOG
 			//-------------------------------------------------------------------------------|/\|---
 		}
 
@@ -110,17 +110,19 @@ var STNode = function () {
 		key: 'init_SensorsManager',
 		value: function init_SensorsManager() {
 
-			if (this.sensorsManager != null) {
+			var stNode = this;
+
+			if (stNode.sensorsManager != null) {
 				throw 'Sensors manager initialized.';
 			}
 
 			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
 			// Sensors Manager
 			//-------------------------------------------------------------------------------|\/|---
-			this.sensorsManager = new SensorsManager();
+			stNode.sensorsManager = new SensorsManager();
 
-			var snsm = this.sensorsManager;
-			var nodeConfig = this.nodeConfiguration.config;
+			var snsm = stNode.sensorsManager;
+			var nodeConfig = stNode.nodeConfiguration.config;
 
 			if (nodeConfig.sensors != null && nodeConfig.sensors.length > 0) {
 
@@ -143,17 +145,19 @@ var STNode = function () {
 		key: 'init_ActuatorsManager',
 		value: function init_ActuatorsManager() {
 
-			if (this.actuatorsManager != null) {
+			var stNode = this;
+
+			if (stNode.actuatorsManager != null) {
 				throw 'Actuators manager initialized.';
 			}
 
 			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
 			// Actuators Manager
 			//-------------------------------------------------------------------------------|\/|---
-			this.actuatorsManager = new ActuatorsManager();
+			stNode.actuatorsManager = new ActuatorsManager();
 
-			var actm = this.actuatorsManager;
-			var nodeConfig = this.nodeConfiguration.config;
+			var actm = stNode.actuatorsManager;
+			var nodeConfig = stNode.nodeConfiguration.config;
 
 			if (nodeConfig.actuators != null && nodeConfig.actuators.length > 0) {
 
@@ -176,43 +180,44 @@ var STNode = function () {
 		key: 'init_NodeControlService',
 		value: function init_NodeControlService() {
 
-			if (this.nodeControlService != null) {
+			var stNode = this;
+
+			if (stNode.nodeControlService != null) {
 				throw 'Node Control Service initialized.';
 			}
-
-			var stNode = this;
 
 			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
 			// Node control Service
 			//-------------------------------------------------------------------------------|\/|---
-			this.nodeControlService = new NodeControlService(this.nodeConfiguration.config);
+			stNode.nodeControlService = new NodeControlService(stNode.nodeConfiguration.config);
 
-			this.nodeControlService.eventEmitter.on(this.nodeControlService.CONSTANTS.Events.ConnectedToServer, function (data) {
+			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.ConnectedToServer, function (data) {
 				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
 				console.log(' <···> Events.ConnectedToServer'); // TODO REMOVE DEBUG LOG
 			});
 
-			this.nodeControlService.eventEmitter.on(this.nodeControlService.CONSTANTS.Events.DisconnectedFromServer, function (data) {
+			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.DisconnectedFromServer, function (data) {
 				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
 				console.log(' <···> Events.DisconnectedFromServer'); // TODO REMOVE DEBUG LOG
 			});
 
-			this.nodeControlService.eventEmitter.on(this.nodeControlService.CONSTANTS.Events.BadNodeConfig, function (data) {
+			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.BadNodeConfig, function (data) {
 				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
 				console.log(' <···> Events.BadNodeConfig'); // TODO REMOVE DEBUG LOG
 
 				stNode._byebye();
 			});
 
-			this.nodeControlService.eventEmitter.on(this.nodeControlService.CONSTANTS.Events.ShutDownNode, function (data) {
+			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.ShutDownNode, function (data) {
 				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
 				console.log(' <···> Events.ShutDownNode'); // TODO REMOVE DEBUG LOG
 
 				stNode._byebye();
 			});
-			this.nodeControlService.connectToServer(); // Connect to server
-			this.sensorsManager.setNodeControlService(this.nodeControlService); // bind to Sensors manager
-			this.actuatorsManager.setNodeControlService(this.nodeControlService); // bind to Actuators manager
+
+			stNode.nodeControlService.connectToServer(); // Connect to server
+			stNode.sensorsManager.setNodeControlService(stNode.nodeControlService); // bind to Sensors manager
+			stNode.actuatorsManager.setNodeControlService(stNode.nodeControlService); // bind to Actuators manager
 			//-------------------------------------------------------------------------------|/\|---
 		}
 
@@ -224,11 +229,11 @@ var STNode = function () {
 		key: 'init_NodeNetManager',
 		value: function init_NodeNetManager() {
 
-			if (this.nodeNetManager != null) {
+			var node = this;
+
+			if (node.nodeNetManager != null) {
 				throw 'Node net manager initialized.';
 			}
-
-			var node = this;
 
 			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
 			// Net Manager
@@ -249,18 +254,16 @@ var STNode = function () {
 		key: 'init_NodeNetService',
 		value: function init_NodeNetService() {
 
-			if (this.nodeNetService != null) {
+			var node = this;
+
+			if (node.nodeNetService != null) {
 				throw 'Node net service initialized.';
 			}
 
-			var node = this;
-
 			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
 			// Net service
-			//-------------------------------------------------------------------------------|\/|---
-			this.nodeNetService = new NodeNetService(node, node.nodeNetManager);
-			this.nodeNetService.initialize();
-			//-------------------------------------------------------------------------------|/\|---
+			node.nodeNetService = new NodeNetService(node, node.nodeNetManager);
+			node.nodeNetService.initialize();
 		}
 
 		/**
@@ -270,11 +273,14 @@ var STNode = function () {
 	}, {
 		key: '_byebye',
 		value: function _byebye() {
-			console.log('Have a great day!');
 
-			this.nodeControlService.disconnectFromServer();
-			this.sensorsManager.turnOffSensors();
-			this.actuatorsManager.turnOffActuators();
+			var node = this;
+
+			console.log('Have a great day!'); // TODO REMOVE DEBUG LOG
+
+			node.nodeControlService.disconnectFromServer();
+			node.sensorsManager.turnOffSensors();
+			node.actuatorsManager.turnOffActuators();
 
 			process.exit(0);
 		}
@@ -287,17 +293,17 @@ var STNode = function () {
 		key: 'init_MiniCLI',
 		value: function init_MiniCLI() {
 
-			if (this.miniCLI != null) {
+			var stNode = this;
+
+			if (stNode.miniCLI != null) {
 				throw 'Mini CLI initialized.';
 			}
 
-			var stNode = this;
+			stNode.miniCLI = readline.createInterface(process.stdin, process.stdout);
+			stNode.miniCLI.setPrompt('STNode> ');
+			stNode.miniCLI.prompt();
 
-			this.miniCLI = readline.createInterface(process.stdin, process.stdout);
-			this.miniCLI.setPrompt('STNode> ');
-			this.miniCLI.prompt();
-
-			this.miniCLI.on('line', function (line) {
+			stNode.miniCLI.on('line', function (line) {
 				var line_ = line.trim();
 				var _line_ = line_.split(" ");
 				if (_line_.length > 1) {

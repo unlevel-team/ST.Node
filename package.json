@@ -4,9 +4,10 @@
   "description": "ST Node",
   "author": "Unlevel Team <unlevelteam@gmail.com>",
   "scripts": {
-    "start_old": "node --harmony lib/STNodeEngine.js",
+    "startdev": "node --harmony lib/STNodeEngine.js dev",
     "start": "node lib_es5/STNodeEngine.js",
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "toES5": "gulp babel"
   },
   "main": "lib/nodeEngine/ST_Node.js",
   "keywords": [
@@ -21,14 +22,14 @@
 	"portscanner" : "~1.0.0",
     "cylon": "^1.3.0",
     "cylon-keyboard": "^0.16.0",
-    "socket.io-client": "~1.4"
+    "socket.io-client": "~1.4",
+    "source-map-support": "*"
   },
   "devDependencies": {
     "babel-preset-es2015": "*",
     "gulp": "*",
     "gulp-babel": "*",
-    "gulp-sourcemaps": "*",
-    "source-map-support": "*"
+    "gulp-sourcemaps": "*"
   },
   "preferGlobal": false,
   "private": true,
