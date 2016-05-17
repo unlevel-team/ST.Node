@@ -10,6 +10,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var EventEmitter = require('events').EventEmitter;
 
+var SensorEngine = require('./SensorEngine.js');
+
 /**
  * SensorsManager CONSTANTS
  */
@@ -20,26 +22,8 @@ var SensorsManager_CONSTANTS = {
 
 	},
 
-	"States": {
-		"SEstate_Config": "config",
-		"SEstate_Ready": "ready",
-		"SEstate_Working": "working",
-		"SEstate_Stop": "stop"
-	},
-
 	"Events": {
-		"SensorEngine_Ready": "SE Ready",
-
-		"MainLoop_Tick": "Main Loop",
-		"MainLoop_Stop": "Main Loop Stop",
-
-		"SensorEngine_Start": "SE start",
-		"SensorEngine_Stop": "SE stop",
-
-		"SensorOptionsUpdated": "Sensor Options Updated",
-
-		"SensorData": "Sensor Data"
-
+		"SensorOptionsUpdated": "Sensor Options Updated"
 	},
 
 	"Messages": {
@@ -63,99 +47,8 @@ var SensorsManager_CONSTANTS = {
 };
 
 /**
- * Sensor Engine
- */
-
-var SensorEngine = function () {
-	function SensorEngine(config) {
-		_classCallCheck(this, SensorEngine);
-
-		this.config = config;
-		this._mainLoop = null;
-
-		this.state = SensorsManager_CONSTANTS.States.SEstate_Config;
-
-		this.CONSTANTS = SensorsManager_CONSTANTS;
-
-		this.eventEmitter = new EventEmitter();
-	}
-
-	/**
-  * Initialize
-  */
-
-
-	_createClass(SensorEngine, [{
-		key: "initialize",
-		value: function initialize() {
-
-			var sensorEngine = this;
-
-			sensorEngine.eventEmitter.on(sensorEngine.CONSTANTS.Events.MainLoop_Stop, function () {
-				clearInterval(sensorEngine._mainLoop);
-				sensorEngine.state = sensorEngine.CONSTANTS.States.SEstate_Ready;
-			});
-
-			sensorEngine.state = SensorsManager_CONSTANTS.States.SEstate_Ready;
-		}
-
-		/**
-   * Main loop
-   */
-
-	}, {
-		key: "mainLoop",
-		value: function mainLoop() {
-			var sensorEngine = this;
-
-			if (sensorEngine.state != sensorEngine.CONSTANTS.States.SEstate_Ready) {
-				throw "Bad state";
-			}
-
-			sensorEngine.state = sensorEngine.CONSTANTS.States.SEstate_Working;
-
-			sensorEngine._mainLoop = setInterval(function () {
-				if (sensorEngine.state == sensorEngine.CONSTANTS.States.SEstate_Working) {
-					sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Tick);
-				} else {
-					sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Stop);
-				}
-			}, sensorEngine.config.loopTime);
-		}
-
-		/**
-   * Stop main loop
-   */
-
-	}, {
-		key: "stopMainLoop",
-		value: function stopMainLoop() {
-			var sensorEngine = this;
-			sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Stop);
-		}
-	}, {
-		key: "startEngine",
-		value: function startEngine() {}
-	}, {
-		key: "stopEngine",
-		value: function stopEngine() {}
-	}, {
-		key: "getOptions",
-		value: function getOptions() {
-			return {};
-		}
-	}, {
-		key: "setOptions",
-		value: function setOptions(options) {}
-	}]);
-
-	return SensorEngine;
-}();
-
-/**
  * Sensor
  */
-
 
 var Sensor = function () {
 	function Sensor(config) {
@@ -167,7 +60,7 @@ var Sensor = function () {
 	}
 
 	_createClass(Sensor, [{
-		key: "initialize",
+		key: 'initialize',
 		value: function initialize() {
 
 			var sensor = this;
@@ -186,6 +79,7 @@ var Sensor = function () {
 					// TODO: handle exception
 					console.log('<EEE> Sensor.initialize'); // TODO REMOVE DEBUG LOG
 					console.log(e); // TODO REMOVE DEBUG LOG
+					console.log(sensor.config); // TODO REMOVE DEBUG LOG
 				}
 			}
 			// ··· - ··· - ··· - ··· - ··· - ··· - ··· - ··· _ ··· - ··· - ··· - ··· _ ··· - ··· - ··· /\ ···
@@ -254,7 +148,7 @@ var SensorsManager = function () {
 
 
 	_createClass(SensorsManager, [{
-		key: "setNodeControlService",
+		key: 'setNodeControlService',
 		value: function setNodeControlService(nodeCtrlSrv) {
 
 			var smng = this;
@@ -324,7 +218,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "addSensor",
+		key: 'addSensor',
 		value: function addSensor(config) {
 			var smng = this;
 			var stSenstor = null;
@@ -355,7 +249,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "getSensorByID",
+		key: 'getSensorByID',
 		value: function getSensorByID(sensorID) {
 
 			var smng = this;
@@ -381,7 +275,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "turnOffSensors",
+		key: 'turnOffSensors',
 
 
 		/**
@@ -410,7 +304,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "getSensorOptions",
+		key: 'getSensorOptions',
 		value: function getSensorOptions(sns) {
 
 			var snsOptions = {
@@ -431,7 +325,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "setSensorOptions",
+		key: 'setSensorOptions',
 		value: function setSensorOptions(sensor, options) {
 
 			var smng = this;
@@ -456,7 +350,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "_msg_getSensorsList",
+		key: '_msg_getSensorsList',
 		value: function _msg_getSensorsList(msg) {
 
 			var smng = this;
@@ -486,7 +380,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "_msg_StartSensor",
+		key: '_msg_StartSensor',
 		value: function _msg_StartSensor(msg) {
 
 			var smng = this;
@@ -528,7 +422,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "_msg_StopSensor",
+		key: '_msg_StopSensor',
 		value: function _msg_StopSensor(msg) {
 
 			var smng = this;
@@ -565,7 +459,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "_msg_TurnOffSensors",
+		key: '_msg_TurnOffSensors',
 		value: function _msg_TurnOffSensors(msg) {
 
 			var smng = this;
@@ -593,7 +487,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "_msg_getSensorOptions",
+		key: '_msg_getSensorOptions',
 		value: function _msg_getSensorOptions(msg, socket) {
 
 			var smng = this;
@@ -633,7 +527,7 @@ var SensorsManager = function () {
    */
 
 	}, {
-		key: "_msg_setSensorOptions",
+		key: '_msg_setSensorOptions',
 		value: function _msg_setSensorOptions(msg) {
 
 			var smng = this;
@@ -668,7 +562,7 @@ var SensorsManager = function () {
 			};
 		}
 	}], [{
-		key: "getSensorEngine",
+		key: 'getSensorEngine',
 		value: function getSensorEngine(config) {
 			var sensorEngine = new SensorEngine(config);
 			return sensorEngine;
