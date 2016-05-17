@@ -10,6 +10,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var EventEmitter = require('events').EventEmitter;
 
+var ActuatorEngine = require('./ActuatorEngine.js');
+
 /**
  * ActuatorsManager CONSTANTS
  */
@@ -19,27 +21,8 @@ var ActuatorsManager_CONSTANTS = {
 		"type_Cylonjs": "cylonjs"
 
 	},
-
-	"States": {
-		"State_Config": "config",
-		"State_Ready": "ready",
-		"State_Working": "working",
-		"State_Stop": "stop"
-	},
-
 	"Events": {
-		"SensorEngine_Ready": "SE Ready",
-
-		"MainLoop_Tick": "Main Loop",
-		"MainLoop_Stop": "Main Loop Stop",
-
-		"ActuatorEngine_Start": "AE start",
-		"ActuatorEngine_Stop": "AE stop",
-
-		"ActuatorOptionsUpdated": "Actuator Options Updated",
-
-		"ActuatorData": "Actuator Data"
-
+		"ActuatorOptionsUpdated": "Actuator Options Updated"
 	},
 
 	"Messages": {
@@ -62,98 +45,8 @@ var ActuatorsManager_CONSTANTS = {
 };
 
 /**
- * Actuator Engine
- */
-
-var ActuatorEngine = function () {
-	function ActuatorEngine(config) {
-		_classCallCheck(this, ActuatorEngine);
-
-		this.config = config;
-		this._mainLoop = null;
-
-		this.state = ActuatorsManager_CONSTANTS.States.State_Config;
-
-		this.CONSTANTS = ActuatorsManager_CONSTANTS;
-
-		this.eventEmitter = new EventEmitter();
-	}
-
-	/**
-  * Initialize
-  */
-
-
-	_createClass(ActuatorEngine, [{
-		key: "initialize",
-		value: function initialize() {
-
-			var actuatorEngine = this;
-
-			actuatorEngine.eventEmitter.on(actuatorEngine.CONSTANTS.Events.MainLoop_Stop, function () {
-				clearInterval(actuatorEngine._mainLoop);
-				actuatorEngine.state = actuatorEngine.CONSTANTS.States.State_Ready;
-			});
-
-			actuatorEngine.state = actuatorEngine.CONSTANTS.States.State_Ready;
-		}
-
-		/**
-   * Main loop
-   */
-
-	}, {
-		key: "mainLoop",
-		value: function mainLoop() {
-			var actuatorEngine = this;
-
-			if (actuatorEngine.state != actuatorEngine.CONSTANTS.States.State_Ready) {
-				throw "Bad state";
-			}
-
-			actuatorEngine.state = actuatorEngine.CONSTANTS.States.State_Working;
-
-			actuatorEngine._mainLoop = setInterval(function () {
-				if (actuatorEngine.state == actuatorEngine.CONSTANTS.States.State_Working) {
-					actuatorEngine.eventEmitter.emit(actuatorEngine.CONSTANTS.Events.MainLoop_Tick);
-				} else {
-					actuatorEngine.eventEmitter.emit(actuatorEngine.CONSTANTS.Events.MainLoop_Stop);
-				}
-			}, actuatorEngine.config.loopTime);
-		}
-
-		/**
-   * Stop main loop
-   */
-
-	}, {
-		key: "stopMainLoop",
-		value: function stopMainLoop() {
-			this.eventEmitter.emit(this.CONSTANTS.Events.MainLoop_Stop);
-		}
-	}, {
-		key: "startEngine",
-		value: function startEngine() {}
-	}, {
-		key: "stopEngine",
-		value: function stopEngine() {}
-	}, {
-		key: "getOptions",
-		value: function getOptions() {
-			return {};
-		}
-	}, {
-		key: "setOptions",
-		value: function setOptions(options) {}
-	}]);
-
-	return ActuatorEngine;
-}();
-
-/**
  * Actuator
  */
-
 
 var Actuator = function () {
 	function Actuator(config) {
@@ -165,7 +58,7 @@ var Actuator = function () {
 	}
 
 	_createClass(Actuator, [{
-		key: "initialize",
+		key: 'initialize',
 		value: function initialize() {
 
 			// ··· - ··· - ··· - ··· - ··· - ··· - ··· - ··· _ ··· - ··· - ··· - ··· _ ··· - ··· - ··· \/ ···
@@ -252,7 +145,7 @@ var ActuatorsManager = function () {
 
 
 	_createClass(ActuatorsManager, [{
-		key: "setNodeControlService",
+		key: 'setNodeControlService',
 		value: function setNodeControlService(nodeCtrlSrv) {
 
 			var amng = this;
@@ -307,7 +200,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "addActuator",
+		key: 'addActuator',
 		value: function addActuator(config) {
 
 			var amng = this;
@@ -339,7 +232,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "getActuatorByID",
+		key: 'getActuatorByID',
 		value: function getActuatorByID(actuatorID) {
 
 			var amng = this;
@@ -364,7 +257,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "turnOffActuators",
+		key: 'turnOffActuators',
 
 
 		/**
@@ -393,7 +286,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "getActuatorOptions",
+		key: 'getActuatorOptions',
 		value: function getActuatorOptions(act) {
 
 			var actOptions = {
@@ -414,7 +307,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "setActuatorOptions",
+		key: 'setActuatorOptions',
 		value: function setActuatorOptions(act, options) {
 
 			var amng = this;
@@ -439,7 +332,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "_msg_getActuatorsList",
+		key: '_msg_getActuatorsList',
 		value: function _msg_getActuatorsList(msg) {
 
 			var amng = this;
@@ -469,7 +362,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "_msg_getActuatorOptions",
+		key: '_msg_getActuatorOptions',
 		value: function _msg_getActuatorOptions(msg) {
 
 			var amng = this;
@@ -510,7 +403,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "_msg_setActuatorOptions",
+		key: '_msg_setActuatorOptions',
 		value: function _msg_setActuatorOptions(msg) {
 
 			var amng = this;
@@ -550,7 +443,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "_msg_StartActuator",
+		key: '_msg_StartActuator',
 		value: function _msg_StartActuator(msg) {
 
 			var amng = this;
@@ -588,7 +481,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "_msg_StopActuator",
+		key: '_msg_StopActuator',
 		value: function _msg_StopActuator(msg) {
 
 			var amng = this;
@@ -626,7 +519,7 @@ var ActuatorsManager = function () {
    */
 
 	}, {
-		key: "_msg_TurnOffActuators",
+		key: '_msg_TurnOffActuators',
 		value: function _msg_TurnOffActuators(msg) {
 
 			var amng = this;
@@ -650,7 +543,7 @@ var ActuatorsManager = function () {
 			};
 		}
 	}], [{
-		key: "getActuatorEngine",
+		key: 'getActuatorEngine',
 		value: function getActuatorEngine(config) {
 			var actuatorEngine = new ActuatorEngine(config);
 			return actuatorEngine;

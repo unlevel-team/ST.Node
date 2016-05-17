@@ -1,9 +1,9 @@
 "use strict";
 
 /**
- * SensorEngine
+ * ActuatorEngine
  * 
- * Generic process for a Sensor
+ * Generic process for an Actuator
  * 
  */
 
@@ -16,42 +16,42 @@ var EventEmitter = require('events').EventEmitter;
 /**
  * SensorEngine CONSTANTS
  */
-var SensorEngine_CONSTANTS = {
+var ActuatorEngine_CONSTANTS = {
 
 	"States": {
-		"SEstate_Config": "config",
-		"SEstate_Ready": "ready",
-		"SEstate_Working": "working",
-		"SEstate_Stop": "stop"
+		"State_Config": "config",
+		"State_Ready": "ready",
+		"State_Working": "working",
+		"State_Stop": "stop"
 	},
 
 	"Events": {
 		"MainLoop_Tick": "Main Loop",
 		"MainLoop_Stop": "Main Loop Stop",
 
-		"SensorEngine_Start": "SE start",
-		"SensorEngine_Stop": "SE stop",
+		"ActuatorEngine_Start": "AE start",
+		"ActuatorEngine_Stop": "AE stop",
 
-		"SensorData": "Sensor Data"
+		"ActuatorData": "Actuator Data"
 
 	}
 
 };
 
 /**
- * Sensor Engine
+ * Actuator Engine
  */
 
-var SensorEngine = function () {
-	function SensorEngine(config) {
-		_classCallCheck(this, SensorEngine);
+var ActuatorEngine = function () {
+	function ActuatorEngine(config) {
+		_classCallCheck(this, ActuatorEngine);
 
 		this.config = config;
 		this._mainLoop = null;
 
-		this.CONSTANTS = SensorEngine_CONSTANTS;
+		this.state = ActuatorEngine_CONSTANTS.States.State_Config;
 
-		this.state = this.CONSTANTS.States.SEstate_Config;
+		this.CONSTANTS = ActuatorEngine_CONSTANTS;
 
 		this.eventEmitter = new EventEmitter();
 	}
@@ -61,18 +61,18 @@ var SensorEngine = function () {
   */
 
 
-	_createClass(SensorEngine, [{
+	_createClass(ActuatorEngine, [{
 		key: "initialize",
 		value: function initialize() {
 
-			var sensorEngine = this;
+			var actuatorEngine = this;
 
-			sensorEngine.eventEmitter.on(sensorEngine.CONSTANTS.Events.MainLoop_Stop, function () {
-				clearInterval(sensorEngine._mainLoop);
-				sensorEngine.state = sensorEngine.CONSTANTS.States.SEstate_Ready;
+			actuatorEngine.eventEmitter.on(actuatorEngine.CONSTANTS.Events.MainLoop_Stop, function () {
+				clearInterval(actuatorEngine._mainLoop);
+				actuatorEngine.state = actuatorEngine.CONSTANTS.States.State_Ready;
 			});
 
-			sensorEngine.state = sensorEngine.CONSTANTS.States.SEstate_Ready;
+			actuatorEngine.state = actuatorEngine.CONSTANTS.States.State_Ready;
 		}
 
 		/**
@@ -82,22 +82,21 @@ var SensorEngine = function () {
 	}, {
 		key: "mainLoop",
 		value: function mainLoop() {
+			var actuatorEngine = this;
 
-			var sensorEngine = this;
-
-			if (sensorEngine.state != sensorEngine.CONSTANTS.States.SEstate_Ready) {
+			if (actuatorEngine.state != actuatorEngine.CONSTANTS.States.State_Ready) {
 				throw "Bad state";
 			}
 
-			sensorEngine.state = sensorEngine.CONSTANTS.States.SEstate_Working;
+			actuatorEngine.state = actuatorEngine.CONSTANTS.States.State_Working;
 
-			sensorEngine._mainLoop = setInterval(function () {
-				if (sensorEngine.state == sensorEngine.CONSTANTS.States.SEstate_Working) {
-					sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Tick);
+			actuatorEngine._mainLoop = setInterval(function () {
+				if (actuatorEngine.state == actuatorEngine.CONSTANTS.States.State_Working) {
+					actuatorEngine.eventEmitter.emit(actuatorEngine.CONSTANTS.Events.MainLoop_Tick);
 				} else {
-					sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Stop);
+					actuatorEngine.eventEmitter.emit(actuatorEngine.CONSTANTS.Events.MainLoop_Stop);
 				}
-			}, sensorEngine.config.loopTime);
+			}, actuatorEngine.config.loopTime);
 		}
 
 		/**
@@ -107,8 +106,8 @@ var SensorEngine = function () {
 	}, {
 		key: "stopMainLoop",
 		value: function stopMainLoop() {
-			var sensorEngine = this;
-			sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Stop);
+			var actuatorEngine = this;
+			actuatorEngine.eventEmitter.emit(actuatorEngine.CONSTANTS.Events.MainLoop_Stop);
 		}
 	}, {
 		key: "startEngine",
@@ -126,8 +125,8 @@ var SensorEngine = function () {
 		value: function setOptions(options) {}
 	}]);
 
-	return SensorEngine;
+	return ActuatorEngine;
 }();
 
-module.exports = SensorEngine;
-//# sourceMappingURL=SensorEngine.js.map
+module.exports = ActuatorEngine;
+//# sourceMappingURL=ActuatorEngine.js.map
