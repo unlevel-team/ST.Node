@@ -58,7 +58,6 @@ var NodeNetService = function () {
 		value: function initialize() {
 
 			this._mapControlEvents();
-			//		this._mapControlMessages(this.node, this.node.socket);
 		}
 
 		/**

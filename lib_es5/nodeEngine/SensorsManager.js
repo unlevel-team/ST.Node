@@ -172,15 +172,15 @@ var SensorsManager = function () {
 				}); // Emit message SensorOptions
 			});
 
-			//		// Map event disconnect
-			//		socket.on("disconnect", function(data){
-			//			socket.removeAllListeners(smng.CONSTANTS.Messages.getSensorsList);
-			//			socket.removeAllListeners(smng.CONSTANTS.Messages.getSensorOptions);
-			//			socket.removeAllListeners(smng.CONSTANTS.Messages.setSensorOptions);
-			//			socket.removeAllListeners(smng.CONSTANTS.Messages.StartSensor);
-			//			socket.removeAllListeners(smng.CONSTANTS.Messages.StopSensor);
-			//			socket.removeAllListeners(smng.CONSTANTS.Messages.TurnOffSensors);
-			//		});
+			// Map event disconnect
+			socket.on("disconnect", function (data) {
+				socket.removeAllListeners(smng.CONSTANTS.Messages.getSensorsList);
+				socket.removeAllListeners(smng.CONSTANTS.Messages.getSensorOptions);
+				socket.removeAllListeners(smng.CONSTANTS.Messages.setSensorOptions);
+				socket.removeAllListeners(smng.CONSTANTS.Messages.StartSensor);
+				socket.removeAllListeners(smng.CONSTANTS.Messages.StopSensor);
+				socket.removeAllListeners(smng.CONSTANTS.Messages.TurnOffSensors);
+			});
 
 			// Map Message getSensorsList
 			socket.on(smng.CONSTANTS.Messages.getSensorsList, function (msg) {
@@ -257,12 +257,19 @@ var SensorsManager = function () {
 			var sensor = null;
 			var _i = 0;
 
-			for (_i = 0; _i < smng.sensorList.length; _i++) {
-				if (smng.sensorList[_i].config.id == sensorID) {
-					sensor = smng.sensorList[_i];
-					break;
-				}
+			_i = smng.sensorList.map(function (x) {
+				return x.config.id;
+			}).indexOf(sensorID);
+			if (_i != -1) {
+				sensor = smng.sensorList[_i];
 			}
+
+			//		for (_i = 0; _i < smng.sensorList.length; _i++) {
+			//			if (smng.sensorList[_i].config.id == sensorID) {
+			//				sensor = smng.sensorList[_i];
+			//				break;
+			//			}
+			//		}
 
 			return {
 				"STsensor": sensor,

@@ -27,6 +27,10 @@ var STActuator_Dummy01 = function (_ActuatorEngine) {
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(STActuator_Dummy01).call(this, config));
 
 		_this._lastTime = null;
+		_this._lastActuatorDATA = {
+			"time": null,
+			"data": null
+		};
 		return _this;
 	}
 
@@ -44,16 +48,14 @@ var STActuator_Dummy01 = function (_ActuatorEngine) {
 
 			stActuator._ticks = 0;
 
+			// Map event MainLoop_Tick
 			stActuator.eventEmitter.on(stActuator.CONSTANTS.Events.MainLoop_Tick, function () {
 
 				stActuator._ticks++;
 
 				if (stActuator._ticks >= actOptions.ticks) {
+
 					stActuator._ticks = 0;
-					stActuator.eventEmitter.emit(stActuator.CONSTANTS.Events.ActuatorData, { "ticks": actOptions.ticks });
-
-					console.log('<*> STActuator_Dummy01.Events.ActuatorData'); // TODO REMOVE DEBUG LOG
-
 					stActuator._lastTime = new Date().getTime();
 
 					if (actOptions.showTime) {
@@ -68,6 +70,11 @@ var STActuator_Dummy01 = function (_ActuatorEngine) {
 						stActuator._deltaTimeRef = stActuator._lastTime;
 					}
 				}
+			});
+
+			// Map event ActuatorData
+			stActuator.eventEmitter.on(stActuator.CONSTANTS.Events.ActuatorData, function (data) {
+				stActuator._event_ActuatorData(data);
 			});
 
 			_get(Object.getPrototypeOf(STActuator_Dummy01.prototype), 'initialize', this).call(this);
@@ -149,6 +156,23 @@ var STActuator_Dummy01 = function (_ActuatorEngine) {
 			if (options.showDeltaTime != undefined) {
 				actOptions.showDeltaTime = options.showDeltaTime;
 			}
+		}
+
+		/**
+   * Event ActuatorData
+   */
+
+	}, {
+		key: '_event_ActuatorData',
+		value: function _event_ActuatorData(data) {
+
+			var stActuator = this;
+
+			stActuator._lastActuatorDATA.data = data;
+			stActuator._lastActuatorDATA.time = new Date().getTime();
+
+			console.log('<*> STActuator_Dummy01.Events.ActuatorData'); // TODO REMOVE DEBUG LOG
+			console.log(stActuator._lastActuatorDATA); // TODO REMOVE DEBUG LOG
 		}
 	}]);
 

@@ -1,0 +1,19 @@
+{
+  "ecmaVersion": 6,
+  "ide": {
+    "scriptPaths": [
+      {
+        "type": "FOLDER",
+        "path": "lib"
+      }
+    ]
+  },
+  "plugins": {
+    "guess-types": {
+      
+    },
+    "outline": {
+      
+    }
+  }
+}
