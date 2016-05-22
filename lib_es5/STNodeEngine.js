@@ -32,5 +32,7 @@ stNode.init_NodeControlService();
 stNode.init_NodeNetManager();
 stNode.init_NodeNetService();
 
+stNode.init_NodeCOMSystem();
+
 stNode.init_MiniCLI();
 //# sourceMappingURL=STNodeEngine.js.map

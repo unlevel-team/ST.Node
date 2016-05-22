@@ -29,6 +29,8 @@ var NodeControlService = require('./NodeControlService.js');
 var NodeNetManager = require('./NodeNetManager.js');
 var NodeNetService = require('./NodeNetService.js');
 
+var COMSystem = require('../stNetwork/COMSystem.js').COMSystem;
+
 var readline = require('readline');
 
 /**
@@ -47,6 +49,8 @@ var STNode = function () {
 
 		this.nodeNetManager = null;
 		this.nodeNetService = null;
+
+		this.comSYS = null;
 
 		this.miniCLI = null;
 	}
@@ -262,6 +266,42 @@ var STNode = function () {
 			// Net service
 			node.nodeNetService = new NodeNetService(node, node.nodeNetManager);
 			node.nodeNetService.initialize();
+		}
+
+		/**
+   * Initialize COM system
+   */
+
+	}, {
+		key: 'init_NodeCOMSystem',
+		value: function init_NodeCOMSystem() {
+
+			var node = this;
+
+			if (node.comSYS != null) {
+				throw 'Node COM System initialized.';
+			}
+
+			var socket = node.nodeControlService.socket;
+
+			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			// COM System
+			var comSYS_Config = {
+				"controlChannel": socket,
+				"role": "Node",
+				"sensorManager": node.sensorsManager,
+				"actuatorsManager": node.actuatorsManager
+			};
+
+			node.comSYS = COMSystem.getCOMSystem(comSYS_Config);
+
+			try {
+				node.comSYS.initialize();
+			} catch (e) {
+				console.log('<EEE> ST Node.init_NodeCOMSystem'); // TODO REMOVE DEBUG LOG
+				console.log(' <···> ' + e); // TODO REMOVE DEBUG LOG
+				node._byebye();
+			}
 		}
 
 		/**
