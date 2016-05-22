@@ -264,13 +264,6 @@ var SensorsManager = function () {
 				sensor = smng.sensorList[_i];
 			}
 
-			//		for (_i = 0; _i < smng.sensorList.length; _i++) {
-			//			if (smng.sensorList[_i].config.id == sensorID) {
-			//				sensor = smng.sensorList[_i];
-			//				break;
-			//			}
-			//		}
-
 			return {
 				"STsensor": sensor,
 				"position": _i

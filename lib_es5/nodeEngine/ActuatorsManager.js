@@ -239,11 +239,11 @@ var ActuatorsManager = function () {
 			var actuator = null;
 			var _i = 0;
 
-			for (_i = 0; _i < amng.actuatorsList.length; _i++) {
-				if (amng.actuatorsList[_i].config.id == actuatorID) {
-					actuator = amng.actuatorsList[_i];
-					break;
-				}
+			_i = amng.actuatorsList.map(function (x) {
+				return x.config.id;
+			}).indexOf(actuatorID);
+			if (_i != -1) {
+				actuator = amng.actuatorsList[_i];
 			}
 
 			return {

@@ -233,6 +233,7 @@ var NodeNetService = function () {
 
 			var nnets = this;
 			var nnetm = nnets.nodeNetManager;
+
 			var message = {};
 
 			console.log('<*> ST NodeNetService._msg_createDataChannel'); // TODO REMOVE DEBUG LOG
