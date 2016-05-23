@@ -1,6 +1,6 @@
 {
   "name": "st.node",
-  "version": "0.0.1-alpha0-build001",
+  "version": "0.0.1-beta0-build001",
   "description": "ST Node",
   "author": "Unlevel Team <unlevelteam@gmail.com>",
   "scripts": {
@@ -9,7 +9,7 @@
     "gulp": "gulp",
     "toES5": "gulp babel"
   },
-  "main": "lib/nodeEngine/ST_Node.js",
+  "main": "lib_es5/nodeEngine/ST_Node.js",
   "keywords": [
     "st.node",
     "st",
@@ -24,7 +24,7 @@
     "cylon-keyboard": "^0.16.0",
     "socket.io-client": "~1.4",
     "source-map-support": "*",
-    "st.network": "file:../NLVL_STNetwork/"
+    "st.network": "https://github.com/unlevel-team/ST.Network.git#public"
   },
   "devDependencies": {
     "babel-preset-es2015": "*",
