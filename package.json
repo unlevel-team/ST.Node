@@ -1,6 +1,6 @@
 {
-  "name": "st_node",
-  "version": "0.0.1",
+  "name": "st.node",
+  "version": "0.0.1-alpha0-build001",
   "description": "ST Node",
   "author": "Unlevel Team <unlevelteam@gmail.com>",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "main": "lib/nodeEngine/ST_Node.js",
   "keywords": [
-    "st_node",
+    "st.node",
     "st",
     "IoT",
     "SomeThings",
@@ -23,17 +23,19 @@
     "cylon": "^1.3.0",
     "cylon-keyboard": "^0.16.0",
     "socket.io-client": "~1.4",
-    "source-map-support": "*"
+    "source-map-support": "*",
+    "st.network": "file:../NLVL_STNetwork/"
   },
   "devDependencies": {
     "babel-preset-es2015": "*",
     "gulp": "*",
     "gulp-babel": "*",
     "gulp-sourcemaps": "*"
+    
   },
   "preferGlobal": false,
   "private": true,
-  "subdomain": "st_node",
+  "subdomain": "st.node",
   "analyze": true,
   "license": "MIT"
 }

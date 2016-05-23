@@ -7,6 +7,8 @@
  */
 
 // Gulp+Babel tricks · · - - · · · - - · \/ · ·
+var devMode = false;
+
 if (!process.argv[2] || process.argv[2] != 'dev') {
 
 	var gulp_babelTricks = require('./toES5.js');
@@ -25,6 +27,8 @@ var STNode = require('./nodeEngine/ST_Node.js');
  * ST Node Main loop
  */
 var stNode = new STNode();
+
+stNode._devMode = devMode;
 
 stNode.init_Node();
 stNode.init_NodeControlService();

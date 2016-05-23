@@ -24,8 +24,8 @@ var DataMessage = require('../DataChannel.js').DataMessage;
 var ThingBind = require('../COMSystem.js').ThingBind;
 var COMSystem = require('../COMSystem.js').COMSystem;
 
-var COMSys_Morse_Srv_Node = require('./cysMorse_Services.js').COMSys_Morse_Srv_Node;
-var COMSys_Morse_Srv_Server = require('./cysMorse_Services.js').COMSys_Morse_Srv_Server;
+var COMSys_Morse_Srv_Node = require('./csysMorse_Services.js').COMSys_Morse_Srv_Node;
+var COMSys_Morse_Srv_Server = require('./csysMorse_Services.js').COMSys_Morse_Srv_Server;
 
 var COMSystem_Morse_CONSTANTS = {
 	"Config": {
@@ -303,11 +303,17 @@ var COMSystem_Morse = function (_COMSystem) {
 		value: function _init_RoleNode() {
 
 			var comSYS = this;
+			var _config = comSYS.config;
+
+			if (_config.controlChannel == undefined) {
+				throw "controlChannel is required.";
+			}
+
 			comSYS._service = new COMSys_Morse_Srv_Node(comSYS);
 		}
 
 		/**
-   * Initialize Node server
+   * Initialize Server role
    */
 
 	}, {
@@ -315,6 +321,8 @@ var COMSystem_Morse = function (_COMSystem) {
 		value: function _init_RoleServer() {
 
 			var comSYS = this;
+			var _config = comSYS.config;
+
 			comSYS._service = new COMSys_Morse_Srv_Server(comSYS);
 		}
 
