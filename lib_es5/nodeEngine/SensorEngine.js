@@ -67,6 +67,7 @@ var SensorEngine = function () {
 
 			var sensorEngine = this;
 
+			// Map event MainLoop_Stop
 			sensorEngine.eventEmitter.on(sensorEngine.CONSTANTS.Events.MainLoop_Stop, function () {
 				clearInterval(sensorEngine._mainLoop);
 				sensorEngine.state = sensorEngine.CONSTANTS.States.SEstate_Ready;
@@ -93,10 +94,10 @@ var SensorEngine = function () {
 
 			sensorEngine._mainLoop = setInterval(function () {
 				if (sensorEngine.state == sensorEngine.CONSTANTS.States.SEstate_Working) {
-					sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Tick);
+					sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Tick); // Emit event MainLoop_Tick
 				} else {
-					sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Stop);
-				}
+						sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Stop); // Emit event MainLoop_Stop
+					}
 			}, sensorEngine.config.loopTime);
 		}
 
@@ -108,7 +109,7 @@ var SensorEngine = function () {
 		key: "stopMainLoop",
 		value: function stopMainLoop() {
 			var sensorEngine = this;
-			sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Stop);
+			sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Stop); // Emit event MainLoop_Stop
 		}
 	}, {
 		key: "startEngine",

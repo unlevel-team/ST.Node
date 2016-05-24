@@ -42,11 +42,15 @@ var STSensor_Dummy01 = function (_SensorEngine) {
 			var stSensor = this;
 			stSensor._ticks = 0;
 
+			// Map event MainLoop_Tick
 			stSensor.eventEmitter.on(stSensor.CONSTANTS.Events.MainLoop_Tick, function () {
 
 				stSensor._ticks++;
 				if (stSensor._ticks >= stSensor.config.options.ticks) {
+
 					stSensor._ticks = 0;
+
+					// Emit event SensorData
 					stSensor.eventEmitter.emit(stSensor.CONSTANTS.Events.SensorData, { "ticks": stSensor.config.options.ticks });
 
 					console.log('<*> STSensor_Dummy01.Events.SensorData'); // TODO REMOVE DEBUG LOG
@@ -58,10 +62,12 @@ var STSensor_Dummy01 = function (_SensorEngine) {
 					}
 
 					if (stSensor.config.options.showDeltaTime) {
+
 						if (stSensor._deltaTimeRef != undefined) {
 							var deltaTime = stSensor._lastTime - stSensor._deltaTimeRef;
 							console.log(' <···> DetalTime: ' + deltaTime); // TODO REMOVE DEBUG LOG
 						}
+
 						stSensor._deltaTimeRef = stSensor._lastTime;
 					}
 				}
@@ -77,6 +83,7 @@ var STSensor_Dummy01 = function (_SensorEngine) {
 
 			stSensor.mainLoop();
 
+			// Emit event SensorEngine_Start
 			stSensor.eventEmitter.emit(stSensor.CONSTANTS.Events.SensorEngine_Start);
 		}
 	}, {
@@ -87,7 +94,8 @@ var STSensor_Dummy01 = function (_SensorEngine) {
 
 			stSensor.stopMainLoop();
 
-			// MainLoop_Stop
+			// Emit event SensorEngine_Stop
+			// for MainLoop_Stop
 			stSensor.eventEmitter.emit(stSensor.CONSTANTS.Events.SensorEngine_Stop);
 		}
 

@@ -372,6 +372,7 @@ var SensorsManager = function () {
 				response.sensors.push(sensor);
 			});
 
+			// Emit message SensorsList
 			smng.nodeCtrlSrv.socket.emit(smng.CONSTANTS.Messages.SensorsList, response);
 		}
 
@@ -400,9 +401,7 @@ var SensorsManager = function () {
 					_sensorSearch.STsensor.sensorEngine.startEngine();
 					response.result = "OK";
 				} else {
-
 					console.log("Not found!!!"); // TODO REMOVE DEBUG LOG
-
 					throw "Sensor not found.";
 				}
 			} catch (e) {
@@ -429,7 +428,7 @@ var SensorsManager = function () {
 
 			console.log('<*> SensorsManager.Messages.StopSensor'); // TODO REMOVE DEBUG LOG
 			console.log(msg); // TODO REMOVE DEBUG LOG
-			//		  console.log(' <·> ' + msg);	// TODO REMOVE DEBUG LOG
+			//		console.log(' <·> ' + msg);	// TODO REMOVE DEBUG LOG
 
 			var response = {};
 			response.result = null;
@@ -448,7 +447,6 @@ var SensorsManager = function () {
 				// TODO: handle exception
 				response.result = "ERROR";
 				response.error = e;
-
 				console.log('<EEE> SensorsManager.Messages.StopSensor ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
 			};

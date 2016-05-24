@@ -26,11 +26,10 @@ var ActuatorsManager = require('./ActuatorsManager.js').ActuatorsManager;
 
 var NodeControlService = require('./NodeControlService.js');
 
-var NodeNetManager = require('./NodeNetManager.js');
-var NodeNetService = require('./NodeNetService.js');
+var NodeNetManager = require('st.network').Services.NodeNetManager;
+var NodeNetService = require('st.network').Services.NodeNetService;
 
 var COMSystem = require('st.network').COMSystem;
-//let COMSystem = require('../stNetwork/COMSystem.js').COMSystem;
 
 var readline = require('readline');
 
