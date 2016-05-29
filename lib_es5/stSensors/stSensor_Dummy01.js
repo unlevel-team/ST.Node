@@ -58,14 +58,14 @@ var STSensor_Dummy01 = function (_SensorEngine) {
 					stSensor._lastTime = new Date().getTime();
 
 					if (stSensor.config.options.showTime) {
-						console.log(' <···> Time: ' + stSensor._lastTime); // TODO REMOVE DEBUG LOG
+						console.log(' <~~~> Time: ' + stSensor._lastTime); // TODO REMOVE DEBUG LOG
 					}
 
 					if (stSensor.config.options.showDeltaTime) {
 
-						if (stSensor._deltaTimeRef != undefined) {
+						if (stSensor._deltaTimeRef !== undefined) {
 							var deltaTime = stSensor._lastTime - stSensor._deltaTimeRef;
-							console.log(' <···> DetalTime: ' + deltaTime); // TODO REMOVE DEBUG LOG
+							console.log(' <~~~> DetalTime: ' + deltaTime); // TODO REMOVE DEBUG LOG
 						}
 
 						stSensor._deltaTimeRef = stSensor._lastTime;
@@ -129,7 +129,7 @@ var STSensor_Dummy01 = function (_SensorEngine) {
 
 			var stSensor = this;
 
-			if (stSensor.state == stSensor.CONSTANTS.States.SEstate_Working) {
+			if (stSensor.state === stSensor.CONSTANTS.States.SEstate_Working) {
 				throw "Bad sensor state.";
 			}
 
@@ -139,11 +139,11 @@ var STSensor_Dummy01 = function (_SensorEngine) {
 				actOptions.ticks = options.ticks;
 			}
 
-			if (options.showTime != undefined) {
+			if (options.showTime !== undefined) {
 				actOptions.showTime = options.showTime;
 			}
 
-			if (options.showDeltaTime != undefined) {
+			if (options.showDeltaTime !== undefined) {
 				actOptions.showDeltaTime = options.showDeltaTime;
 			}
 		}

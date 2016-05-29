@@ -84,14 +84,14 @@ var ActuatorEngine = function () {
 		value: function mainLoop() {
 			var actuatorEngine = this;
 
-			if (actuatorEngine.state != actuatorEngine.CONSTANTS.States.State_Ready) {
+			if (actuatorEngine.state !== actuatorEngine.CONSTANTS.States.State_Ready) {
 				throw "Bad state";
 			}
 
 			actuatorEngine.state = actuatorEngine.CONSTANTS.States.State_Working;
 
 			actuatorEngine._mainLoop = setInterval(function () {
-				if (actuatorEngine.state == actuatorEngine.CONSTANTS.States.State_Working) {
+				if (actuatorEngine.state === actuatorEngine.CONSTANTS.States.State_Working) {
 					actuatorEngine.eventEmitter.emit(actuatorEngine.CONSTANTS.Events.MainLoop_Tick);
 				} else {
 					actuatorEngine.eventEmitter.emit(actuatorEngine.CONSTANTS.Events.MainLoop_Stop);

@@ -59,13 +59,13 @@ var STActuator_Dummy01 = function (_ActuatorEngine) {
 					stActuator._lastTime = new Date().getTime();
 
 					if (actOptions.showTime) {
-						console.log(' <···> Time: ' + stActuator._lastTime); // TODO REMOVE DEBUG LOG
+						console.log(' <~~~> Time: ' + stActuator._lastTime); // TODO REMOVE DEBUG LOG
 					}
 
 					if (actOptions.showDeltaTime) {
-						if (stActuator._deltaTimeRef != undefined) {
+						if (stActuator._deltaTimeRef !== undefined) {
 							var deltaTime = stActuator._lastTime - stActuator._deltaTimeRef;
-							console.log(' <···> DetalTime: ' + deltaTime); // TODO REMOVE DEBUG LOG
+							console.log(' <~~~> DetalTime: ' + deltaTime); // TODO REMOVE DEBUG LOG
 						}
 						stActuator._deltaTimeRef = stActuator._lastTime;
 					}
@@ -139,7 +139,7 @@ var STActuator_Dummy01 = function (_ActuatorEngine) {
 
 			var stActuator = this;
 
-			if (stActuator.state == stActuator.CONSTANTS.States.State_Working) {
+			if (stActuator.state === stActuator.CONSTANTS.States.State_Working) {
 				throw "Bad actuator state.";
 			}
 
@@ -149,11 +149,11 @@ var STActuator_Dummy01 = function (_ActuatorEngine) {
 				actOptions.ticks = options.ticks;
 			}
 
-			if (options.showTime != undefined) {
+			if (options.showTime !== undefined) {
 				actOptions.showTime = options.showTime;
 			}
 
-			if (options.showDeltaTime != undefined) {
+			if (options.showDeltaTime !== undefined) {
 				actOptions.showDeltaTime = options.showDeltaTime;
 			}
 		}

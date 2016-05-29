@@ -66,7 +66,7 @@ var STSensor_Keyboard = function (_SensorEngine) {
 					//		    });
 
 					my.keyboard.on("up", function () {
-						if (stSensor._CylonRobotState != "working") {
+						if (stSensor._CylonRobotState !== "working") {
 							return;
 						}
 						console.log("UP!");
@@ -74,7 +74,7 @@ var STSensor_Keyboard = function (_SensorEngine) {
 					});
 
 					my.keyboard.on("down", function () {
-						if (stSensor._CylonRobotState != "working") {
+						if (stSensor._CylonRobotState !== "working") {
 							return;
 						}
 						console.log("DOWN!");
@@ -82,7 +82,7 @@ var STSensor_Keyboard = function (_SensorEngine) {
 					});
 
 					my.keyboard.on("left", function () {
-						if (stSensor._CylonRobotState != "working") {
+						if (stSensor._CylonRobotState !== "working") {
 							return;
 						}
 						console.log("LEFT!");
@@ -90,7 +90,7 @@ var STSensor_Keyboard = function (_SensorEngine) {
 					});
 
 					my.keyboard.on("RIGHT", function () {
-						if (stSensor._CylonRobotState != "working") {
+						if (stSensor._CylonRobotState !== "working") {
 							return;
 						}
 						console.log("RIGHT!");
@@ -106,7 +106,7 @@ var STSensor_Keyboard = function (_SensorEngine) {
 	}, {
 		key: 'startEngine',
 		value: function startEngine() {
-			if (this._CylonRobotState == "ready") {
+			if (this._CylonRobotState === "ready") {
 				this._CylonRobot.start();
 			}
 

@@ -6,10 +6,10 @@
  * starts a STNode
  */
 
-// Gulp+Babel tricks · · - - · · · - - · \/ · ·
+// Gulp+Babel tricks ~ ~ - - ~ ~ ~ - - ~ \/ ~ ~
 var devMode = false;
 
-if (!process.argv[2] || process.argv[2] != 'dev') {
+if (!process.argv[2] || process.argv[2] !== 'dev') {
 
 	var gulp_babelTricks = require('./toES5.js');
 	gulp_babelTricks.source_map_support_Install();
@@ -20,7 +20,7 @@ if (!process.argv[2] || process.argv[2] != 'dev') {
 	console.log('Arguments'); // TODO REMOVE DEBUG LOG
 	console.log(process.argv); // TODO REMOVE DEBUG LOG
 }
-// · - - · · · - - · · · - - · · · - - · /\ · ·
+// ~ - - ~ ~ ~ - - ~ ~ ~ - - ~ ~ ~ - - ~ /\ ~ ~
 
 // require our modules
 var STNode = require('./nodeEngine/ST_Node.js');

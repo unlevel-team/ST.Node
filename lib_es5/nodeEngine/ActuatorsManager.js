@@ -61,9 +61,9 @@ var Actuator = function () {
 		key: 'initialize',
 		value: function initialize() {
 
-			// ··· - ··· - ··· - ··· - ··· - ··· - ··· - ··· _ ··· - ··· - ··· - ··· _ ··· - ··· - ··· \/ ···
+			// ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ _ ~~~ - ~~~ - ~~~ - ~~~ _ ~~~ - ~~~ - ~~~ \/ ~~~
 			// Actuator Engine URL
-			if (this.config.options.actuatorEngineURL != undefined && this.config.options.actuatorEngineURL != null) {
+			if (this.config.options.actuatorEngineURL !== undefined && this.config.options.actuatorEngineURL !== null) {
 
 				var actuator = this;
 
@@ -79,7 +79,7 @@ var Actuator = function () {
 					console.log(e); // TODO REMOVE DEBUG LOG
 				}
 			}
-			// ··· - ··· - ··· - ··· - ··· - ··· - ··· - ··· _ ··· - ··· - ··· - ··· _ ··· - ··· - ··· /\ ···
+			// ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ _ ~~~ - ~~~ - ~~~ - ~~~ _ ~~~ - ~~~ - ~~~ /\ ~~~
 		}
 	}]);
 
@@ -213,7 +213,7 @@ var ActuatorsManager = function () {
 
 				case amng.CONSTANTS.Config.type_Cylonjs:
 					stActuator = new CylActuator(config);
-					if (amng._Cylon == null) {
+					if (amng._Cylon === null) {
 						amng._Cylon = require('cylon');
 					}
 					break;
@@ -242,7 +242,7 @@ var ActuatorsManager = function () {
 			_i = amng.actuatorsList.map(function (x) {
 				return x.config.id;
 			}).indexOf(actuatorID);
-			if (_i != -1) {
+			if (_i !== -1) {
 				actuator = amng.actuatorsList[_i];
 			}
 
@@ -269,12 +269,12 @@ var ActuatorsManager = function () {
 			var actList = amng.actuatorsList;
 
 			actList.forEach(function (act_, _i) {
-				if (act_.actuatorEngine != null) {
+				if (act_.actuatorEngine !== null) {
 					act_.actuatorEngine.stopEngine();
 				}
 			});
 
-			if (amng._Cylon != null) {
+			if (amng._Cylon !== null) {
 				amng._Cylon.halt();
 			}
 
@@ -295,7 +295,7 @@ var ActuatorsManager = function () {
 
 			};
 
-			if (act.actuatorEngine != null) {
+			if (act.actuatorEngine !== null) {
 				actOptions.engineOptions = act.actuatorEngine.getOptions();
 			}
 
@@ -312,7 +312,7 @@ var ActuatorsManager = function () {
 
 			var amng = this;
 
-			if (act.actuatorEngine && act.actuatorEngine.state == act.actuatorEngine.CONSTANTS.States.State_Working) {
+			if (act.actuatorEngine && act.actuatorEngine.state === act.actuatorEngine.CONSTANTS.States.State_Working) {
 				throw "Bad actuator state.";
 			}
 
@@ -379,7 +379,7 @@ var ActuatorsManager = function () {
 			try {
 
 				var actuatorSearch = amng.getActuatorByID(actuatorID);
-				if (actuatorSearch.STactuator == null) {
+				if (actuatorSearch.STactuator === null) {
 					throw "Actuator not found.";
 				}
 
@@ -395,7 +395,7 @@ var ActuatorsManager = function () {
 
 				console.log('<EEE> ActuatorsManager.Messages.getActuatorOptions ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
-			};
+			}
 		}
 
 		/**
@@ -421,7 +421,7 @@ var ActuatorsManager = function () {
 			try {
 
 				var actuatorSearch = amng.getActuatorByID(actuatorID);
-				if (actuatorSearch.STactuator == null) {
+				if (actuatorSearch.STactuator === null) {
 					throw "Actuator not found.";
 				}
 
@@ -435,7 +435,7 @@ var ActuatorsManager = function () {
 
 				console.log('<EEE> ActuatorsManager.Messages.setActuatorOptions ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
-			};
+			}
 		}
 
 		/**
@@ -458,7 +458,7 @@ var ActuatorsManager = function () {
 
 				var _actuatorSearch = amng.getActuatorByID(msg.actuatorID);
 
-				if (_actuatorSearch.STactuator != null) {
+				if (_actuatorSearch.STactuator !== null) {
 					_actuatorSearch.STactuator.actuatorEngine.startEngine();
 					response.result = "OK";
 				} else {
@@ -473,7 +473,7 @@ var ActuatorsManager = function () {
 
 				console.log('<EEE> ActuatorsManager.Messages.StartActuator ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
-			};
+			}
 		}
 
 		/**
@@ -496,7 +496,7 @@ var ActuatorsManager = function () {
 
 				var _actuatorSearch = amng.getActuatorByID(msg.actuatorID);
 
-				if (_actuatorSearch.STactuator != null) {
+				if (_actuatorSearch.STactuator !== null) {
 					_actuatorSearch.STactuator.actuatorEngine.stopEngine();
 					response.result = "OK";
 				} else {
@@ -511,7 +511,7 @@ var ActuatorsManager = function () {
 
 				console.log('<EEE> ActuatorsManager.Messages.StopActuator ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
-			};
+			}
 		}
 
 		/**
@@ -540,7 +540,7 @@ var ActuatorsManager = function () {
 
 				console.log('<EEE> ActuatorsManager.Messages.TurnOffActuators ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
-			};
+			}
 		}
 	}], [{
 		key: 'getActuatorEngine',

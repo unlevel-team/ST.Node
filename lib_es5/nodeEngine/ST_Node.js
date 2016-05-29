@@ -82,26 +82,27 @@ var STNode = function () {
 
 			var stNode = this;
 
-			if (stNode.nodeConfiguration != null) {
+			if (stNode.nodeConfiguration !== null) {
 				throw 'Node configuration is loaded.';
 			}
 
-			// --- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			// --- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Node configuration
 			// -------------------------------------------------------------------------------|\/|---
 			stNode.nodeConfiguration = new NodeConfiguration();
 
 			stNode.nodeConfiguration.readFile();
 
-			if (stNode.nodeConfiguration.config == null) {
+			if (stNode.nodeConfiguration.config === null) {
 
 				console.log('Error in configuration'); // TODO REMOVE DEBUG LOG
 
 				process.exit(0);
 				//			return -1;
 			}
-			console.log('<···> ST Node'); // TODO REMOVE DEBUG LOG
-			console.log(' <···> nodeConfiguration'); // TODO REMOVE DEBUG LOG
+
+			console.log('<*> ST Node'); // TODO REMOVE DEBUG LOG
+			console.log(' <~~~> nodeConfiguration'); // TODO REMOVE DEBUG LOG
 			console.log(stNode.nodeConfiguration.config); // TODO REMOVE DEBUG LOG
 			//-------------------------------------------------------------------------------|/\|---
 		}
@@ -116,11 +117,11 @@ var STNode = function () {
 
 			var stNode = this;
 
-			if (stNode.sensorsManager != null) {
+			if (stNode.sensorsManager !== null) {
 				throw 'Sensors manager initialized.';
 			}
 
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			//--- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Sensors Manager
 			//-------------------------------------------------------------------------------|\/|---
 			stNode.sensorsManager = new SensorsManager();
@@ -128,13 +129,13 @@ var STNode = function () {
 			var snsm = stNode.sensorsManager;
 			var nodeConfig = stNode.nodeConfiguration.config;
 
-			if (nodeConfig.sensors != null && nodeConfig.sensors.length > 0) {
+			if (nodeConfig.sensors !== null && nodeConfig.sensors.length > 0) {
 
 				nodeConfig.sensors.forEach(function (sns_, _i) {
 					snsm.addSensor(sns_);
 				});
 
-				console.log('<···> ST Node.sensorsManager'); // TODO REMOVE DEBUG LOG
+				console.log('<~~~> ST Node.sensorsManager'); // TODO REMOVE DEBUG LOG
 				console.log(nodeConfig.sensors); // TODO REMOVE DEBUG LOG
 				console.log(snsm.sensorList); // TODO REMOVE DEBUG LOG
 			}
@@ -151,11 +152,11 @@ var STNode = function () {
 
 			var stNode = this;
 
-			if (stNode.actuatorsManager != null) {
+			if (stNode.actuatorsManager !== null) {
 				throw 'Actuators manager initialized.';
 			}
 
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			//--- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Actuators Manager
 			//-------------------------------------------------------------------------------|\/|---
 			stNode.actuatorsManager = new ActuatorsManager();
@@ -163,13 +164,13 @@ var STNode = function () {
 			var actm = stNode.actuatorsManager;
 			var nodeConfig = stNode.nodeConfiguration.config;
 
-			if (nodeConfig.actuators != null && nodeConfig.actuators.length > 0) {
+			if (nodeConfig.actuators !== null && nodeConfig.actuators.length > 0) {
 
 				nodeConfig.actuators.forEach(function (act_, _i) {
 					actm.addActuator(act_);
 				});
 
-				console.log('<···> ST Node.actuatorsManager'); // TODO REMOVE DEBUG LOG
+				console.log('<*> ST Node.actuatorsManager'); // TODO REMOVE DEBUG LOG
 				console.log(nodeConfig.actuators); // TODO REMOVE DEBUG LOG
 				console.log(actm.actuatorsList); // TODO REMOVE DEBUG LOG
 			}
@@ -186,35 +187,35 @@ var STNode = function () {
 
 			var stNode = this;
 
-			if (stNode.nodeControlService != null) {
+			if (stNode.nodeControlService !== null) {
 				throw 'Node Control Service initialized.';
 			}
 
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			//--- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Node control Service
 			//-------------------------------------------------------------------------------|\/|---
 			stNode.nodeControlService = new NodeControlService(stNode.nodeConfiguration.config);
 
 			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.ConnectedToServer, function (data) {
-				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
-				console.log(' <···> Events.ConnectedToServer'); // TODO REMOVE DEBUG LOG
+				console.log('<*> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
+				console.log(' <~~~> Events.ConnectedToServer'); // TODO REMOVE DEBUG LOG
 			});
 
 			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.DisconnectedFromServer, function (data) {
-				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
-				console.log(' <···> Events.DisconnectedFromServer'); // TODO REMOVE DEBUG LOG
+				console.log('<*> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
+				console.log(' <~~~> Events.DisconnectedFromServer'); // TODO REMOVE DEBUG LOG
 			});
 
 			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.BadNodeConfig, function (data) {
-				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
-				console.log(' <···> Events.BadNodeConfig'); // TODO REMOVE DEBUG LOG
+				console.log('<*> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
+				console.log(' <~~~> Events.BadNodeConfig'); // TODO REMOVE DEBUG LOG
 
 				stNode._byebye();
 			});
 
 			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.ShutDownNode, function (data) {
-				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
-				console.log(' <···> Events.ShutDownNode'); // TODO REMOVE DEBUG LOG
+				console.log('<*> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
+				console.log(' <~~~> Events.ShutDownNode'); // TODO REMOVE DEBUG LOG
 
 				stNode._byebye();
 			});
@@ -235,11 +236,11 @@ var STNode = function () {
 
 			var node = this;
 
-			if (node.nodeNetManager != null) {
+			if (node.nodeNetManager !== null) {
 				throw 'Node net manager initialized.';
 			}
 
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			//--- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Net Manager
 			var ndm_Config = {
 				"_node": node
@@ -258,11 +259,11 @@ var STNode = function () {
 
 			var node = this;
 
-			if (node.nodeNetService != null) {
+			if (node.nodeNetService !== null) {
 				throw 'Node net service initialized.';
 			}
 
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			//--- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Net service
 			node.nodeNetService = new NodeNetService(node, node.nodeNetManager);
 			node.nodeNetService.initialize();
@@ -278,13 +279,13 @@ var STNode = function () {
 
 			var node = this;
 
-			if (node.comSYS != null) {
+			if (node.comSYS !== null) {
 				throw 'Node COM System initialized.';
 			}
 
 			var socket = node.nodeControlService.socket;
 
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			//--- ~~ --- ~~ --- ~~ --- ~~ ---
 			// COM System
 			var comSYS_Config = {
 				"controlChannel": socket,
@@ -299,7 +300,7 @@ var STNode = function () {
 				node.comSYS.initialize();
 			} catch (e) {
 				console.log('<EEE> ST Node.init_NodeCOMSystem'); // TODO REMOVE DEBUG LOG
-				console.log(' <···> ' + e); // TODO REMOVE DEBUG LOG
+				console.log(' <~~~> ' + e); // TODO REMOVE DEBUG LOG
 				node._byebye();
 			}
 		}
@@ -333,12 +334,12 @@ var STNode = function () {
 
 			var stNode = this;
 
-			if (stNode.miniCLI != null) {
+			if (stNode.miniCLI !== null) {
 				throw 'Mini CLI initialized.';
 			}
 
 			stNode.miniCLI = readline.createInterface(process.stdin, process.stdout);
-			stNode.miniCLI.setPrompt('STNode> ');
+			stNode.miniCLI.setPrompt('ST.Node> ');
 			stNode.miniCLI.prompt();
 
 			stNode.miniCLI.on('line', function (line) {
@@ -361,7 +362,7 @@ var STNode = function () {
 
 						var sensorSearch = null;
 
-						if (_line_.length == 1) {
+						if (_line_.length === 1) {
 							console.log('<*>Sensor List');
 							console.log(stNode.sensorsManager.sensorList);
 						} else {
@@ -371,7 +372,7 @@ var STNode = function () {
 									console.log('<*>Sensor Start');
 
 									sensorSearch = stNode.sensorsManager.getSensorByID(_line_[2]);
-									if (sensorSearch.STsensor == null) {
+									if (sensorSearch.STsensor === null) {
 										console.log(' <EEE>Sensor not found');
 									}
 
@@ -388,7 +389,7 @@ var STNode = function () {
 									console.log('<*>Sensor Stop');
 
 									sensorSearch = stNode.sensorsManager.getSensorByID(_line_[2]);
-									if (sensorSearch.STsensor == null) {
+									if (sensorSearch.STsensor === null) {
 										console.log(' <EEE>Sensor not found');
 									}
 
@@ -410,7 +411,7 @@ var STNode = function () {
 						break;
 
 					default:
-						if (line_ != '') {
+						if (line_ !== '') {
 							console.log('>???> Say what? I might have heard `' + line_ + '`');
 						}
 						break;

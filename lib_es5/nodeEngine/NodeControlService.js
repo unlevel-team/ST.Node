@@ -60,7 +60,7 @@ var NodeControlService = function () {
 
 			var ncs = this;
 
-			if (ncs.socket != null) {
+			if (ncs.socket !== null) {
 				throw "Already connected";
 			}
 
@@ -112,11 +112,11 @@ var NodeControlService = function () {
 				var numberOfSensors = 0;
 				var numberOfActuators = 0;
 
-				if (ncs.config.sensors != null && ncs.config.sensors.length > 0) {
+				if (ncs.config.sensors !== null && ncs.config.sensors.length > 0) {
 					numberOfSensors = ncs.config.sensors.length;
 				}
 
-				if (ncs.config.actuators != null && ncs.config.actuators.length > 0) {
+				if (ncs.config.actuators !== null && ncs.config.actuators.length > 0) {
 					numberOfActuators = ncs.config.actuators.length;
 				}
 
@@ -162,7 +162,7 @@ var NodeControlService = function () {
 
 			var ncs = this;
 
-			if (ncs.socket == null) {
+			if (ncs.socket === null) {
 				throw "Not connected";
 			}
 
@@ -189,11 +189,11 @@ var NodeControlService = function () {
 
 			};
 
-			if (ncs.config.sensors != null && ncs.config.sensors.length > 0) {
+			if (ncs.config.sensors !== null && ncs.config.sensors.length > 0) {
 				response.numberOfSensors = ncs.config.sensors.length;
 			}
 
-			if (ncs.config.actuators != null && ncs.config.actuators.length > 0) {
+			if (ncs.config.actuators !== null && ncs.config.actuators.length > 0) {
 				response.numberOfActuators = ncs.config.actuators.length;
 			}
 

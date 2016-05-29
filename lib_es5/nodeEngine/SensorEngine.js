@@ -86,18 +86,22 @@ var SensorEngine = function () {
 
 			var sensorEngine = this;
 
-			if (sensorEngine.state != sensorEngine.CONSTANTS.States.SEstate_Ready) {
+			if (sensorEngine.state !== sensorEngine.CONSTANTS.States.SEstate_Ready) {
 				throw "Bad state";
 			}
 
 			sensorEngine.state = sensorEngine.CONSTANTS.States.SEstate_Working;
 
 			sensorEngine._mainLoop = setInterval(function () {
-				if (sensorEngine.state == sensorEngine.CONSTANTS.States.SEstate_Working) {
-					sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Tick); // Emit event MainLoop_Tick
+				if (sensorEngine.state === sensorEngine.CONSTANTS.States.SEstate_Working) {
+
+					// Emit event MainLoop_Tick
+					sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Tick);
 				} else {
-						sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Stop); // Emit event MainLoop_Stop
-					}
+
+					// Emit event MainLoop_Stop
+					sensorEngine.eventEmitter.emit(sensorEngine.CONSTANTS.Events.MainLoop_Stop);
+				}
 			}, sensorEngine.config.loopTime);
 		}
 

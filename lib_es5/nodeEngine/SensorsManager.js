@@ -65,9 +65,9 @@ var Sensor = function () {
 
 			var sensor = this;
 
-			// ··· - ··· - ··· - ··· - ··· - ··· - ··· - ··· _ ··· - ··· - ··· - ··· _ ··· - ··· - ··· \/ ···
+			// ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ _ ~~~ - ~~~ - ~~~ - ~~~ _ ~~~ - ~~~ - ~~~ \/ ~~~
 			// Sensor Engine URL
-			if (sensor.config.options.sensorEngineURL != undefined && sensor.config.options.sensorEngineURL != null) {
+			if (sensor.config.options.sensorEngineURL !== undefined && sensor.config.options.sensorEngineURL !== null) {
 
 				sensor._sensorEngine = null;
 
@@ -82,7 +82,7 @@ var Sensor = function () {
 					console.log(sensor.config); // TODO REMOVE DEBUG LOG
 				}
 			}
-			// ··· - ··· - ··· - ··· - ··· - ··· - ··· - ··· _ ··· - ··· - ··· - ··· _ ··· - ··· - ··· /\ ···
+			// ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ - ~~~ _ ~~~ - ~~~ - ~~~ - ~~~ _ ~~~ - ~~~ - ~~~ /\ ~~~
 		}
 	}]);
 
@@ -153,7 +153,7 @@ var SensorsManager = function () {
 
 			var smng = this;
 
-			if (smng.nodeCtrlSrv && smng.nodeCtrlSrv != null) {
+			if (smng.nodeCtrlSrv && smng.nodeCtrlSrv !== null) {
 				throw "Node control service exist.";
 			}
 
@@ -230,7 +230,7 @@ var SensorsManager = function () {
 
 				case smng.CONSTANTS.Config.type_Cylonjs:
 					stSenstor = new CylSensor(config);
-					if (smng._Cylon == null) {
+					if (smng._Cylon === null) {
 						smng._Cylon = require('cylon');
 					}
 					break;
@@ -260,7 +260,7 @@ var SensorsManager = function () {
 			_i = smng.sensorList.map(function (x) {
 				return x.config.id;
 			}).indexOf(sensorID);
-			if (_i != -1) {
+			if (_i !== -1) {
 				sensor = smng.sensorList[_i];
 			}
 
@@ -287,12 +287,12 @@ var SensorsManager = function () {
 			var snsList = smng.sensorList;
 
 			snsList.forEach(function (sns_, _i) {
-				if (sns_.sensorEngine != null) {
+				if (sns_.sensorEngine !== null) {
 					sns_.sensorEngine.stopEngine();
 				}
 			});
 
-			if (smng._Cylon != null) {
+			if (smng._Cylon !== null) {
 				smng._Cylon.halt();
 			}
 
@@ -313,7 +313,7 @@ var SensorsManager = function () {
 
 			};
 
-			if (sns.sensorEngine != null) {
+			if (sns.sensorEngine !== null) {
 				snsOptions.engineOptions = sns.sensorEngine.getOptions();
 			}
 
@@ -330,7 +330,7 @@ var SensorsManager = function () {
 
 			var smng = this;
 
-			if (sensor.sensorEngine && sensor.sensorEngine.state == sensor.sensorEngine.CONSTANTS.States.SEstate_Working) {
+			if (sensor.sensorEngine && sensor.sensorEngine.state === sensor.sensorEngine.CONSTANTS.States.SEstate_Working) {
 				throw "Bad sensor state.";
 			}
 
@@ -388,7 +388,7 @@ var SensorsManager = function () {
 
 			console.log('<*> SensorsManager.Messages.StartSensor'); // TODO REMOVE DEBUG LOG
 			console.log(msg); // TODO REMOVE DEBUG LOG
-			//		  console.log(' <·> ' + msg);	// TODO REMOVE DEBUG LOG
+			//		  console.log(' <~> ' + msg);	// TODO REMOVE DEBUG LOG
 
 			var response = {};
 			response.result = null;
@@ -397,7 +397,7 @@ var SensorsManager = function () {
 
 				var _sensorSearch = smng.getSensorByID(msg.sensorID);
 
-				if (_sensorSearch.STsensor != null) {
+				if (_sensorSearch.STsensor !== null) {
 					_sensorSearch.STsensor.sensorEngine.startEngine();
 					response.result = "OK";
 				} else {
@@ -411,7 +411,7 @@ var SensorsManager = function () {
 
 				console.log('<EEE> SensorsManager.Messages.StartSensor ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
-			};
+			}
 
 			//			msg.result = response.result;
 		}
@@ -428,7 +428,7 @@ var SensorsManager = function () {
 
 			console.log('<*> SensorsManager.Messages.StopSensor'); // TODO REMOVE DEBUG LOG
 			console.log(msg); // TODO REMOVE DEBUG LOG
-			//		console.log(' <·> ' + msg);	// TODO REMOVE DEBUG LOG
+			//		console.log(' <~> ' + msg);	// TODO REMOVE DEBUG LOG
 
 			var response = {};
 			response.result = null;
@@ -437,19 +437,20 @@ var SensorsManager = function () {
 
 				var _sensorSearch = smng.getSensorByID(msg.sensorID);
 
-				if (_sensorSearch.STsensor != null) {
+				if (_sensorSearch.STsensor !== null) {
 					_sensorSearch.STsensor.sensorEngine.stopEngine();
 					response.result = "OK";
 				} else {
 					throw "Sensor not found.";
 				}
 			} catch (e) {
+
 				// TODO: handle exception
 				response.result = "ERROR";
 				response.error = e;
 				console.log('<EEE> SensorsManager.Messages.StopSensor ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
-			};
+			}
 		}
 
 		/**
@@ -477,7 +478,7 @@ var SensorsManager = function () {
 
 				console.log('<EEE> SensorsManager.Messages.TurnOffSensors ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
-			};
+			}
 		}
 
 		/**
@@ -501,7 +502,7 @@ var SensorsManager = function () {
 			try {
 
 				var sensorSearch = smng.getSensorByID(sensorID);
-				if (sensorSearch.STsensor == null) {
+				if (sensorSearch.STsensor === null) {
 					throw "Sensor not found.";
 				}
 
@@ -517,7 +518,7 @@ var SensorsManager = function () {
 
 				console.log('<EEE> SensorsManager.Messages.getSensorOptions ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
-			};
+			}
 		}
 
 		/**
@@ -531,7 +532,7 @@ var SensorsManager = function () {
 			var smng = this;
 
 			console.log('<*> SensorsManager.Messages.setSensorOptions'); // TODO REMOVE DEBUG LO
-			console.log(' <·> ' + msg); // TODO REMOVE DEBUG LO
+			console.log(' <~> ' + msg); // TODO REMOVE DEBUG LO
 
 			var sensorID = msg.sensorID;
 			var options = msg.options;
@@ -543,7 +544,7 @@ var SensorsManager = function () {
 			try {
 
 				var sensorSearch = smng.getSensorByID(sensorID);
-				if (sensorSearch.STsensor == null) {
+				if (sensorSearch.STsensor === null) {
 					throw "Sensor not found.";
 				}
 
@@ -557,7 +558,7 @@ var SensorsManager = function () {
 
 				console.log('<EEE> SensorsManager.Messages.setSensorOptions ERROR'); // TODO REMOVE DEBUG LOG
 				console.log(response); // TODO REMOVE DEBUG LOG
-			};
+			}
 		}
 	}], [{
 		key: 'getSensorEngine',
