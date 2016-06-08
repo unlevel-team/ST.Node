@@ -32,7 +32,7 @@
 		"type" : "cylonjs",
 		"loopTime" : 300,
 		"options" : {
-			"sensorEngineURL" : "../stSensors/stSensor_Keyboard.js"
+			"sensorEngineURL" : "./stSensors/stSensor_Keyboard.js"
 			}
 		},
 		
@@ -41,7 +41,7 @@
 		"type" : "vsensor",
 		"loopTime" : 300,
 		"options" : {
-			"sensorEngineURL" : "../stSensors/stSensor_Dummy01.js",
+			"sensorEngineURL" : "./stSensors/stSensor_Dummy01.js",
 			"ticks" : 3,
 			"showTime" : true,
 			"showDeltaTime" : true
@@ -68,7 +68,7 @@
 		"type" : "vactuator",
 		"loopTime" : 150,
 		"options" : {
-			"actuatorEngineURL" : "../stActuators/stActuator_Dummy01.js",
+			"actuatorEngineURL" : "./stActuators/stActuator_Dummy01.js",
 			"ticks" : 2,
 			"showTime" : true,
 			"showDeltaTime" : true
