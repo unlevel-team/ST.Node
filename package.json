@@ -1,6 +1,6 @@
 {
   "name": "st.node",
-  "version": "0.0.1-beta00-build003",
+  "version": "0.0.1-beta00-build004",
   "description": "ST Node",
   "author": "Unlevel Team <unlevelteam@gmail.com>",
   "scripts": {
@@ -26,6 +26,8 @@
     "socket.io-client": "~1.4",
     "source-map-support": "*",
     "st.network": "https://github.com/unlevel-team/ST.Network.git#public"
+    "st.engines": "https://github.com/unlevel-team/ST.Engines.git#public"
+	
   },
   "devDependencies": {
     "babel-preset-es2015": "*",
