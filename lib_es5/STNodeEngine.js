@@ -35,7 +35,6 @@ try {
 	stNode._devMode = devMode;
 
 	stNode.init_Node();
-	stNode.init_NodeControlService();
 
 	stNode.init_NodeNetManager();
 	stNode.init_NodeNetService();

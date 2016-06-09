@@ -21,8 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var NodeConfiguration = require('./NodeConfiguration.js');
 
-var SensorsManager = require('./SensorsManager.js').SensorsManager;
-var ActuatorsManager = require('./ActuatorsManager.js').ActuatorsManager;
+var STEngines = require('st.engines');
 
 var NodeControlService = require('./NodeControlService.js');
 
@@ -41,18 +40,23 @@ var STNode = function () {
 	function STNode() {
 		_classCallCheck(this, STNode);
 
-		this.nodeConfiguration = null;
+		var stNode = this;
 
-		this.sensorsManager = null;
-		this.actuatorsManager = null;
-		this.nodeControlService = null;
+		stNode.nodeConfiguration = null;
 
-		this.nodeNetManager = null;
-		this.nodeNetService = null;
+		stNode.sensorsManager = null;
+		stNode.actuatorsManager = null;
 
-		this.comSYS = null;
+		stNode.ngSYS = null;
 
-		this.miniCLI = null;
+		stNode.nodeControlService = null;
+
+		stNode.nodeNetManager = null;
+		stNode.nodeNetService = null;
+
+		stNode.comSYS = null;
+
+		stNode.miniCLI = null;
 	}
 
 	/**
@@ -68,8 +72,19 @@ var STNode = function () {
 
 			node.loadConfig();
 
-			node.init_SensorsManager();
-			node.init_ActuatorsManager();
+			try {
+				node._init_NodeControlService();
+			} catch (e) {
+				// TODO: handle exception
+				throw "Error in control service. " + e;
+			}
+
+			try {
+				node._init_EnginesSystem();
+			} catch (e) {
+				// TODO: handle exception
+				throw "Error in engines system. " + e;
+			}
 		}
 
 		/**
@@ -108,82 +123,12 @@ var STNode = function () {
 		}
 
 		/**
-   * Initialize Sensors manager
-   */
-
-	}, {
-		key: 'init_SensorsManager',
-		value: function init_SensorsManager() {
-
-			var stNode = this;
-
-			if (stNode.sensorsManager !== null) {
-				throw 'Sensors manager initialized.';
-			}
-
-			//--- ~~ --- ~~ --- ~~ --- ~~ ---
-			// Sensors Manager
-			//-------------------------------------------------------------------------------|\/|---
-			stNode.sensorsManager = new SensorsManager();
-
-			var snsm = stNode.sensorsManager;
-			var nodeConfig = stNode.nodeConfiguration.config;
-
-			if (nodeConfig.sensors !== null && nodeConfig.sensors.length > 0) {
-
-				nodeConfig.sensors.forEach(function (sns_, _i) {
-					snsm.addSensor(sns_);
-				});
-
-				console.log('<~~~> ST Node.sensorsManager'); // TODO REMOVE DEBUG LOG
-				console.log(nodeConfig.sensors); // TODO REMOVE DEBUG LOG
-				console.log(snsm.sensorList); // TODO REMOVE DEBUG LOG
-			}
-			//-------------------------------------------------------------------------------|/\|---
-		}
-
-		/**
-   * Initialize Actuators manager
-   */
-
-	}, {
-		key: 'init_ActuatorsManager',
-		value: function init_ActuatorsManager() {
-
-			var stNode = this;
-
-			if (stNode.actuatorsManager !== null) {
-				throw 'Actuators manager initialized.';
-			}
-
-			//--- ~~ --- ~~ --- ~~ --- ~~ ---
-			// Actuators Manager
-			//-------------------------------------------------------------------------------|\/|---
-			stNode.actuatorsManager = new ActuatorsManager();
-
-			var actm = stNode.actuatorsManager;
-			var nodeConfig = stNode.nodeConfiguration.config;
-
-			if (nodeConfig.actuators !== null && nodeConfig.actuators.length > 0) {
-
-				nodeConfig.actuators.forEach(function (act_, _i) {
-					actm.addActuator(act_);
-				});
-
-				console.log('<*> ST Node.actuatorsManager'); // TODO REMOVE DEBUG LOG
-				console.log(nodeConfig.actuators); // TODO REMOVE DEBUG LOG
-				console.log(actm.actuatorsList); // TODO REMOVE DEBUG LOG
-			}
-			//-------------------------------------------------------------------------------|/\|---
-		}
-
-		/**
    * Initialize Node Control Service
    */
 
 	}, {
-		key: 'init_NodeControlService',
-		value: function init_NodeControlService() {
+		key: '_init_NodeControlService',
+		value: function _init_NodeControlService() {
 
 			var stNode = this;
 
@@ -221,9 +166,51 @@ var STNode = function () {
 			});
 
 			stNode.nodeControlService.connectToServer(); // Connect to server
-			stNode.sensorsManager.setNodeControlService(stNode.nodeControlService); // bind to Sensors manager
-			stNode.actuatorsManager.setNodeControlService(stNode.nodeControlService); // bind to Actuators manager
 			//-------------------------------------------------------------------------------|/\|---
+		}
+
+		/**
+   * Initialize engines system
+   */
+
+	}, {
+		key: '_init_EnginesSystem',
+		value: function _init_EnginesSystem() {
+
+			var stNode = this;
+			var config = stNode.nodeConfiguration.config;
+
+			if (stNode.ngSYS !== null) {
+				throw 'Engines System initialized.';
+			}
+
+			// Set role node & control channel
+			var ngSYSconfig = {
+
+				"role": "Node",
+				"controlChannel": stNode.nodeControlService,
+
+				"sensors": config.sensors,
+				"actuators": config.actuators
+
+			};
+
+			console.log("ST Node Engines System"); // TODO REMOVE DEBUG LOG
+			console.log(STEngines); // TODO REMOVE DEBUG LOG
+
+			try {
+				stNode.ngSYS = STEngines.getEnginesSystem(ngSYSconfig);
+
+				console.log(stNode.ngSYS); // TODO REMOVE DEBUG LOG
+
+				stNode.ngSYS.initialize();
+
+				stNode.sensorsManager = stNode.ngSYS.sensorsManager;
+				stNode.actuatorsManager = stNode.ngSYS.actuatorsManager;
+			} catch (e) {
+				// TODO: handle exception
+				throw "Cannot initialize engines system. " + e;
+			}
 		}
 
 		/**
