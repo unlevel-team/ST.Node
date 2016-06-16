@@ -21,16 +21,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var NodeConfiguration = require('./NodeConfiguration.js');
 
-var SensorsManager = require('./SensorsManager.js').SensorsManager;
-var ActuatorsManager = require('./ActuatorsManager.js').ActuatorsManager;
+var STEngines = require('st.engines');
 
 var NodeControlService = require('./NodeControlService.js');
 
-var NodeNetManager = require('./NodeNetManager.js');
-var NodeNetService = require('./NodeNetService.js');
+var NodeNetManager = require('st.network').Services.NodeNetManager;
+var NodeNetService = require('st.network').Services.NodeNetService;
 
 var COMSystem = require('st.network').COMSystem;
-//let COMSystem = require('../stNetwork/COMSystem.js').COMSystem;
 
 var readline = require('readline');
 
@@ -42,18 +40,23 @@ var STNode = function () {
 	function STNode() {
 		_classCallCheck(this, STNode);
 
-		this.nodeConfiguration = null;
+		var stNode = this;
 
-		this.sensorsManager = null;
-		this.actuatorsManager = null;
-		this.nodeControlService = null;
+		stNode.nodeConfiguration = null;
 
-		this.nodeNetManager = null;
-		this.nodeNetService = null;
+		stNode.sensorsManager = null;
+		stNode.actuatorsManager = null;
 
-		this.comSYS = null;
+		stNode.ngSYS = null;
 
-		this.miniCLI = null;
+		stNode.nodeControlService = null;
+
+		stNode.nodeNetManager = null;
+		stNode.nodeNetService = null;
+
+		stNode.comSYS = null;
+
+		stNode.miniCLI = null;
 	}
 
 	/**
@@ -69,8 +72,19 @@ var STNode = function () {
 
 			node.loadConfig();
 
-			node.init_SensorsManager();
-			node.init_ActuatorsManager();
+			try {
+				node._init_NodeControlService();
+			} catch (e) {
+				// TODO: handle exception
+				throw "Error in control service. " + e;
+			}
+
+			try {
+				node._init_EnginesSystem();
+			} catch (e) {
+				// TODO: handle exception
+				throw "Error in engines system. " + e;
+			}
 		}
 
 		/**
@@ -83,97 +97,28 @@ var STNode = function () {
 
 			var stNode = this;
 
-			if (stNode.nodeConfiguration != null) {
+			if (stNode.nodeConfiguration !== null) {
 				throw 'Node configuration is loaded.';
 			}
 
-			// --- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			// --- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Node configuration
 			// -------------------------------------------------------------------------------|\/|---
 			stNode.nodeConfiguration = new NodeConfiguration();
 
 			stNode.nodeConfiguration.readFile();
 
-			if (stNode.nodeConfiguration.config == null) {
+			if (stNode.nodeConfiguration.config === null) {
 
 				console.log('Error in configuration'); // TODO REMOVE DEBUG LOG
 
 				process.exit(0);
 				//			return -1;
 			}
-			console.log('<···> ST Node'); // TODO REMOVE DEBUG LOG
-			console.log(' <···> nodeConfiguration'); // TODO REMOVE DEBUG LOG
+
+			console.log('<*> ST Node'); // TODO REMOVE DEBUG LOG
+			console.log(' <~~~> nodeConfiguration'); // TODO REMOVE DEBUG LOG
 			console.log(stNode.nodeConfiguration.config); // TODO REMOVE DEBUG LOG
-			//-------------------------------------------------------------------------------|/\|---
-		}
-
-		/**
-   * Initialize Sensors manager
-   */
-
-	}, {
-		key: 'init_SensorsManager',
-		value: function init_SensorsManager() {
-
-			var stNode = this;
-
-			if (stNode.sensorsManager != null) {
-				throw 'Sensors manager initialized.';
-			}
-
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
-			// Sensors Manager
-			//-------------------------------------------------------------------------------|\/|---
-			stNode.sensorsManager = new SensorsManager();
-
-			var snsm = stNode.sensorsManager;
-			var nodeConfig = stNode.nodeConfiguration.config;
-
-			if (nodeConfig.sensors != null && nodeConfig.sensors.length > 0) {
-
-				nodeConfig.sensors.forEach(function (sns_, _i) {
-					snsm.addSensor(sns_);
-				});
-
-				console.log('<···> ST Node.sensorsManager'); // TODO REMOVE DEBUG LOG
-				console.log(nodeConfig.sensors); // TODO REMOVE DEBUG LOG
-				console.log(snsm.sensorList); // TODO REMOVE DEBUG LOG
-			}
-			//-------------------------------------------------------------------------------|/\|---
-		}
-
-		/**
-   * Initialize Actuators manager
-   */
-
-	}, {
-		key: 'init_ActuatorsManager',
-		value: function init_ActuatorsManager() {
-
-			var stNode = this;
-
-			if (stNode.actuatorsManager != null) {
-				throw 'Actuators manager initialized.';
-			}
-
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
-			// Actuators Manager
-			//-------------------------------------------------------------------------------|\/|---
-			stNode.actuatorsManager = new ActuatorsManager();
-
-			var actm = stNode.actuatorsManager;
-			var nodeConfig = stNode.nodeConfiguration.config;
-
-			if (nodeConfig.actuators != null && nodeConfig.actuators.length > 0) {
-
-				nodeConfig.actuators.forEach(function (act_, _i) {
-					actm.addActuator(act_);
-				});
-
-				console.log('<···> ST Node.actuatorsManager'); // TODO REMOVE DEBUG LOG
-				console.log(nodeConfig.actuators); // TODO REMOVE DEBUG LOG
-				console.log(actm.actuatorsList); // TODO REMOVE DEBUG LOG
-			}
 			//-------------------------------------------------------------------------------|/\|---
 		}
 
@@ -182,48 +127,90 @@ var STNode = function () {
    */
 
 	}, {
-		key: 'init_NodeControlService',
-		value: function init_NodeControlService() {
+		key: '_init_NodeControlService',
+		value: function _init_NodeControlService() {
 
 			var stNode = this;
 
-			if (stNode.nodeControlService != null) {
+			if (stNode.nodeControlService !== null) {
 				throw 'Node Control Service initialized.';
 			}
 
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			//--- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Node control Service
 			//-------------------------------------------------------------------------------|\/|---
 			stNode.nodeControlService = new NodeControlService(stNode.nodeConfiguration.config);
 
 			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.ConnectedToServer, function (data) {
-				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
-				console.log(' <···> Events.ConnectedToServer'); // TODO REMOVE DEBUG LOG
+				console.log('<*> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
+				console.log(' <~~~> Events.ConnectedToServer'); // TODO REMOVE DEBUG LOG
 			});
 
 			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.DisconnectedFromServer, function (data) {
-				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
-				console.log(' <···> Events.DisconnectedFromServer'); // TODO REMOVE DEBUG LOG
+				console.log('<*> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
+				console.log(' <~~~> Events.DisconnectedFromServer'); // TODO REMOVE DEBUG LOG
 			});
 
 			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.BadNodeConfig, function (data) {
-				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
-				console.log(' <···> Events.BadNodeConfig'); // TODO REMOVE DEBUG LOG
+				console.log('<*> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
+				console.log(' <~~~> Events.BadNodeConfig'); // TODO REMOVE DEBUG LOG
 
 				stNode._byebye();
 			});
 
 			stNode.nodeControlService.eventEmitter.on(stNode.nodeControlService.CONSTANTS.Events.ShutDownNode, function (data) {
-				console.log('<···> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
-				console.log(' <···> Events.ShutDownNode'); // TODO REMOVE DEBUG LOG
+				console.log('<*> ST Node.nodeControlService'); // TODO REMOVE DEBUG LOG
+				console.log(' <~~~> Events.ShutDownNode'); // TODO REMOVE DEBUG LOG
 
 				stNode._byebye();
 			});
 
 			stNode.nodeControlService.connectToServer(); // Connect to server
-			stNode.sensorsManager.setNodeControlService(stNode.nodeControlService); // bind to Sensors manager
-			stNode.actuatorsManager.setNodeControlService(stNode.nodeControlService); // bind to Actuators manager
 			//-------------------------------------------------------------------------------|/\|---
+		}
+
+		/**
+   * Initialize engines system
+   */
+
+	}, {
+		key: '_init_EnginesSystem',
+		value: function _init_EnginesSystem() {
+
+			var stNode = this;
+			var config = stNode.nodeConfiguration.config;
+
+			if (stNode.ngSYS !== null) {
+				throw 'Engines System initialized.';
+			}
+
+			// Set role node & control channel
+			var ngSYSconfig = {
+
+				"role": "Node",
+				"controlChannel": stNode.nodeControlService,
+
+				"sensors": config.sensors,
+				"actuators": config.actuators
+
+			};
+
+			console.log("ST Node Engines System"); // TODO REMOVE DEBUG LOG
+			console.log(STEngines); // TODO REMOVE DEBUG LOG
+
+			try {
+				stNode.ngSYS = STEngines.getEnginesSystem(ngSYSconfig);
+
+				console.log(stNode.ngSYS); // TODO REMOVE DEBUG LOG
+
+				stNode.ngSYS.initialize();
+
+				stNode.sensorsManager = stNode.ngSYS.sensorsManager;
+				stNode.actuatorsManager = stNode.ngSYS.actuatorsManager;
+			} catch (e) {
+				// TODO: handle exception
+				throw "Cannot initialize engines system. " + e;
+			}
 		}
 
 		/**
@@ -236,11 +223,11 @@ var STNode = function () {
 
 			var node = this;
 
-			if (node.nodeNetManager != null) {
+			if (node.nodeNetManager !== null) {
 				throw 'Node net manager initialized.';
 			}
 
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			//--- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Net Manager
 			var ndm_Config = {
 				"_node": node
@@ -259,11 +246,11 @@ var STNode = function () {
 
 			var node = this;
 
-			if (node.nodeNetService != null) {
+			if (node.nodeNetService !== null) {
 				throw 'Node net service initialized.';
 			}
 
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			//--- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Net service
 			node.nodeNetService = new NodeNetService(node, node.nodeNetManager);
 			node.nodeNetService.initialize();
@@ -279,13 +266,13 @@ var STNode = function () {
 
 			var node = this;
 
-			if (node.comSYS != null) {
+			if (node.comSYS !== null) {
 				throw 'Node COM System initialized.';
 			}
 
 			var socket = node.nodeControlService.socket;
 
-			//--- ¨¨ --- ¨¨ --- ¨¨ --- ¨¨ ---
+			//--- ~~ --- ~~ --- ~~ --- ~~ ---
 			// COM System
 			var comSYS_Config = {
 				"controlChannel": socket,
@@ -300,7 +287,7 @@ var STNode = function () {
 				node.comSYS.initialize();
 			} catch (e) {
 				console.log('<EEE> ST Node.init_NodeCOMSystem'); // TODO REMOVE DEBUG LOG
-				console.log(' <···> ' + e); // TODO REMOVE DEBUG LOG
+				console.log(' <~~~> ' + e); // TODO REMOVE DEBUG LOG
 				node._byebye();
 			}
 		}
@@ -334,12 +321,12 @@ var STNode = function () {
 
 			var stNode = this;
 
-			if (stNode.miniCLI != null) {
+			if (stNode.miniCLI !== null) {
 				throw 'Mini CLI initialized.';
 			}
 
 			stNode.miniCLI = readline.createInterface(process.stdin, process.stdout);
-			stNode.miniCLI.setPrompt('STNode> ');
+			stNode.miniCLI.setPrompt('ST.Node> ');
 			stNode.miniCLI.prompt();
 
 			stNode.miniCLI.on('line', function (line) {
@@ -362,7 +349,7 @@ var STNode = function () {
 
 						var sensorSearch = null;
 
-						if (_line_.length == 1) {
+						if (_line_.length === 1) {
 							console.log('<*>Sensor List');
 							console.log(stNode.sensorsManager.sensorList);
 						} else {
@@ -372,7 +359,7 @@ var STNode = function () {
 									console.log('<*>Sensor Start');
 
 									sensorSearch = stNode.sensorsManager.getSensorByID(_line_[2]);
-									if (sensorSearch.STsensor == null) {
+									if (sensorSearch.STsensor === null) {
 										console.log(' <EEE>Sensor not found');
 									}
 
@@ -389,7 +376,7 @@ var STNode = function () {
 									console.log('<*>Sensor Stop');
 
 									sensorSearch = stNode.sensorsManager.getSensorByID(_line_[2]);
-									if (sensorSearch.STsensor == null) {
+									if (sensorSearch.STsensor === null) {
 										console.log(' <EEE>Sensor not found');
 									}
 
@@ -411,7 +398,7 @@ var STNode = function () {
 						break;
 
 					default:
-						if (line_ != '') {
+						if (line_ !== '') {
 							console.log('>???> Say what? I might have heard `' + line_ + '`');
 						}
 						break;
