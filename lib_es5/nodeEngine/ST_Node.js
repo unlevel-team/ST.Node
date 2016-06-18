@@ -25,10 +25,11 @@ var STEngines = require('st.engines');
 
 var NodeControlService = require('./NodeControlService.js');
 
-var NodeNetManager = require('st.network').Services.NodeNetManager;
-var NodeNetService = require('st.network').Services.NodeNetService;
+var Services = require('st.network').get_Services();
+var NodeNetManager = Services.get_NodeNetManager();
+var NodeNetService = Services.get_NodeNetService();
 
-var COMSystem = require('st.network').COMSystem;
+var COMSystem = require('st.network').get_COMSystem_Lib();
 
 var readline = require('readline');
 
