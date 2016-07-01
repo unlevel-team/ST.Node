@@ -1,13 +1,14 @@
 {
   "name": "st.node",
-  "version": "0.0.1-alpha00-build005",
+  "version": "0.0.1-alpha00-build006",
   "description": "ST Node",
   "author": "Unlevel Team <unlevelteam@gmail.com>",
   "scripts": {
     "startdev": "node --harmony lib/STNodeEngine.js dev",
     "start": "node lib_es5/STNodeEngine.js",
     "gulp": "gulp",
-    "toES5": "gulp babel"
+    "toES5": "gulp babel",
+    "jsDocs": "gulp docs"
   },
   "main": "lib/nodeEngine/ST_Node.js",
   "keywords": [
@@ -32,8 +33,8 @@
     "babel-preset-es2015": "*",
     "gulp": "*",
     "gulp-babel": "*",
-    "gulp-sourcemaps": "*"
-    
+    "gulp-sourcemaps": "*",
+    "jsdoc": "*"
   },
   "preferGlobal": false,
   "private": true,
