@@ -13,7 +13,10 @@
 
 */
 
-// require our modules
+/**
+ * import NodeConfiguration
+ * @ignore
+ */
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -21,23 +24,73 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var NodeConfiguration = require('./NodeConfiguration.js');
 
+/**
+ * import STEngines
+ * @ignore
+ */
 var STEngines = require('st.engines');
 
+/**
+ * import NodeControlService
+ * @ignore
+ */
 var NodeControlService = require('./NodeControlService.js');
 
+/**
+ * import Services
+ * @ignore
+ */
 var Services = require('st.network').get_Services();
+
+/**
+ * import NodeNetManager
+ * @ignore
+ */
 var NodeNetManager = Services.get_NodeNetManager();
+
+/**
+ * import NodeNetService
+ * @ignore
+ */
 var NodeNetService = Services.get_NodeNetService();
 
+/**
+ * import COMSystem
+ * @ignore
+ */
 var COMSystem = require('st.network').get_COMSystem_Lib();
 
+/**
+ * import readline
+ * @ignore
+ */
 var readline = require('readline');
 
 /**
  * STNode
+ * 
+ * @class
+ * 
+ * @property {Node} stNode - Node
+ * @property {object} nodeConfiguration - Node configuration object
+ * @property {SensorsManager} sensorsManager - Sensors manager
+ * @property {ActuatorsManager} actuatorsManager - Actuators manager
+ * @property {EnginesSystem} ngSYS - Engines System object
+ * @property {NodeControlService} nodeControlService - Node Control service
+ * @property {NodeNetManager} nodeNetManager - Node Net manager
+ * @property {NodeNetService} nodeNetService - Node Net service
+ * @property {COMSystem} comSYS - COM System object
+ * @property {object} miniCLI - miniCLI object
+ * 
  */
 
 var STNode = function () {
+
+	/**
+  * 
+  * @constructs STNode
+  */
+
 	function STNode() {
 		_classCallCheck(this, STNode);
 

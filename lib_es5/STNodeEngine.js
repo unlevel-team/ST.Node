@@ -22,11 +22,17 @@ if (!process.argv[2] || process.argv[2] !== 'dev') {
 }
 // ~ - - ~ ~ ~ - - ~ ~ ~ - - ~ ~ ~ - - ~ /\ ~ ~
 
-// require our modules
+/**
+ * import STNode
+ * @ignore
+ */
 var STNode = require('./nodeEngine/ST_Node.js');
 
 /**
  * ST Node Main loop
+ * 
+ * @ignore
+ * 
  */
 var stNode = new STNode();
 
