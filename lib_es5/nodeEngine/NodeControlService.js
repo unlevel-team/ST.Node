@@ -13,6 +13,8 @@ var EventEmitter = require('events').EventEmitter;
 
 /**
  * NodeControlService CONSTANTS
+ * 
+ * @memberof st.nodeEngine
  */
 var NodeControlService_CONSTANTS = {
 	"Events": {
@@ -44,6 +46,7 @@ var NodeControlService_CONSTANTS = {
  * </pre>
  * 
  * @class
+ * @memberof st.nodeEngine
  * 
  * @property {object} config - Configuration object
  * @property {object} socket - Socket object
@@ -52,6 +55,11 @@ var NodeControlService_CONSTANTS = {
  */
 
 var NodeControlService = function () {
+
+	/**
+  * @constructs NodeControlService
+  */
+
 	function NodeControlService(config) {
 		_classCallCheck(this, NodeControlService);
 

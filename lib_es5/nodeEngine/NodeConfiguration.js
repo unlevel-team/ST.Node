@@ -4,6 +4,7 @@
 
 /**
  * Node configuration constants
+ * @memberof st.nodeEngine
  */
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -18,11 +19,12 @@ var NodeConfiguration_CONSTANTS = {
  * The Sensor configuration JSON.
  * 
  * @typedef {Object} SensorConfig_JSON
- * @memberof NodeConfiguration
+ * @memberof st.nodeEngine.NodeConfiguration
  * @type Object
  * 
  * @property {string} id - Sensor ID
  * @property {string} type - Sensor type
+ * @property {boolean} enabled - Enabled flag
  * @property {number} loopTime - loopTime
  * 
  * @property {object} options - Sensor options
@@ -35,11 +37,12 @@ var NodeConfiguration_CONSTANTS = {
  * The Actuator configuration JSON.
  * 
  * @typedef {Object} ActuatorConfig_JSON
- * @memberof NodeConfiguration
+ * @memberof st.nodeEngine.NodeConfiguration
  * @type Object
  * 
  * @property {string} id - Sensor ID
  * @property {string} type - Sensor type
+ * @property {boolean} enabled - Enabled flag
  * @property {number} loopTime - loopTime
  * 
  * @property {object} options - Sensor options
@@ -52,7 +55,7 @@ var NodeConfiguration_CONSTANTS = {
  * The NodeConfiguration JSON file.
  * 
  * @typedef {Object} NodeConfig_JSON
- * @memberof NodeConfiguration
+ * @memberof st.nodeEngine.NodeConfiguration
  * @type Object
  * 
  * @property {string} type='Config' - Type on JSON
@@ -67,8 +70,8 @@ var NodeConfiguration_CONSTANTS = {
  * @property {number} server.controlPort - Control port
  * 
  * 
- * @property {NodeConfiguration.SensorConfig_JSON[]} sensors - Sensors configuration
- * @property {NodeConfiguration.ActuatorConfig_JSON[]} actuators - Actuators configuration
+ * @property {st.nodeEngine.NodeConfiguration.SensorConfig_JSON[]} sensors - Sensors configuration
+ * @property {st.nodeEngine.NodeConfiguration.ActuatorConfig_JSON[]} actuators - Actuators configuration
  * 
  * 
  */
@@ -77,6 +80,7 @@ var NodeConfiguration_CONSTANTS = {
  * NodeConfiguration
  * 
  * @class
+ * @memberof st.nodeEngine
  * 
  * @property {object} config - Configuration object
  * 

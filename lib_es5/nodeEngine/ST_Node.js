@@ -70,6 +70,7 @@ var readline = require('readline');
  * STNode
  * 
  * @class
+ * @memberof st.nodeEngine
  * 
  * @property {Node} stNode - Node
  * @property {object} nodeConfiguration - Node configuration object
