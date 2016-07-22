@@ -1,6 +1,6 @@
 {
   "name": "st.node",
-  "version": "0.0.1-beta00-build006",
+  "version": "0.0.1-beta00-build007",
   "description": "ST Node",
   "author": "Unlevel Team <unlevelteam@gmail.com>",
   "scripts": {
@@ -8,7 +8,8 @@
     "start": "node lib_es5/STNodeEngine.js",
     "gulp": "gulp",
     "toES5": "gulp babel",
-    "jsDocs": "gulp docs"
+    "jsDocs": "gulp docs",
+    "updateLibs": "npm install --production st.engines st.network"
   },
   "main": "lib_es5/nodeEngine/ST_Node.js",
   "keywords": [

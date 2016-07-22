@@ -17,12 +17,14 @@
 	"sensors" : [
         {
 		"id" : "sensorService01",
+		"enabled": false,
 		"type" : "vsensor",
 		"options" : {}
 		},
 		
         {
 		"id" : "sensorMove01",
+		"enabled": false,
 		"type" : "cylonjs",
 		"options" : {}
 		},
@@ -30,6 +32,7 @@
         {
 		"id" : "sensorKeyb01",
 		"type" : "cylonjs",
+		"enabled": true,
 		"loopTime" : 300,
 		"options" : {
 			"sensorEngineURL" : "./stSensors/stSensor_Keyboard.js"
@@ -39,8 +42,10 @@
 		{
 		"id" : "dummy01",
 		"type" : "vsensor",
+		"enabled": true,
 		"loopTime" : 300,
 		"options" : {
+			"sensorEngineURI" : "st:engines:config/[type=module][moduleName=st.engines][method=sensors.getSensor_Dummy01]",
 			"sensorEngineURL" : "./stSensors/stSensor_Dummy01.js",
 			"ticks" : 3,
 			"showTime" : true,
@@ -54,18 +59,21 @@
         {
 		"id" : "vlcPlayer01",
 		"type" : "vactuator",
+		"enabled": false,
 		"options" : {}
 		},
 		
         {
 		"id" : "actuatorMotor01",
 		"type" : "cylonjs",
+		"enabled": false,
 		"options" : {}
 		},
 		
 		{
 		"id" : "dummy01",
 		"type" : "vactuator",
+		"enabled": true,
 		"loopTime" : 150,
 		"options" : {
 			"actuatorEngineURL" : "./stActuators/stActuator_Dummy01.js",
