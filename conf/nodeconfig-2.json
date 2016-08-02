@@ -1,0 +1,60 @@
+{
+	"type": "Config",
+	"typeExtra": "Node",
+	
+	"node" : {
+		"nodeID": "Node02",
+		"type": "STNode"
+			
+	},
+	
+	"server": {
+		"netLocation" : "127.0.0.1",
+		"controlPort": 5677
+	},
+	
+	
+	"sensors" : [
+        {
+		"id" : "sensorKeyb01",
+		"type" : "cylonjs",
+		"enabled": true,
+		"loopTime" : 300,
+		"options" : {
+			"sensorEngineURL" : "./stSensors/stSensor_Keyboard.js"
+			}
+		},
+		
+		{
+		"id" : "dummy01",
+		"type" : "vsensor",
+		"enabled": true,
+		"loopTime" : 300,
+		"options" : {
+			"sensorEngineURI" : "st:engines:config/[type=module][moduleName=st.engines][method=sensors.getSensor_Dummy01]",
+			"sensorEngineURL" : "./stSensors/stSensor_Dummy01.js",
+			"ticks" : 3,
+			"showTime" : true,
+			"showDeltaTime" : true
+			}
+		}
+	],
+	
+	
+	"actuators" : [
+		{
+		"id" : "dummy01",
+		"type" : "vactuator",
+		"enabled": true,
+		"loopTime" : 150,
+		"options" : {
+			"actuatorEngineURL" : "./stActuators/stActuator_Dummy01.js",
+			"ticks" : 2,
+			"showTime" : true,
+			"showDeltaTime" : true
+			}
+		}
+	]
+
+
+}
