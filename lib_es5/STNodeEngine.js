@@ -36,11 +36,32 @@ if (!process.argv[2] || process.argv[2] !== 'dev') {
 }
 // ~ - - ~ ~ ~ - - ~ ~ ~ - - ~ ~ ~ - - ~ /\ ~ ~
 
+// Parse arguments
+var _sliceIndex = 2;
+if (devMode === true) {
+	_sliceIndex++;
+}
+
+var _argv = require('minimist')(process.argv.slice(_sliceIndex));
+console.log(_argv); // TODO REMOVE DEBUG LOG
+
 /**
  * import STNode
  * @ignore
  */
 var STNode = require('./nodeEngine/ST_Node.js');
+
+// Set node options
+var _nOptions = {
+	'config': {
+		'devMode': devMode,
+		'argv': _argv
+	}
+};
+
+if (_argv.configfile !== undefined) {
+	_nOptions.config.configfile = _argv.configfile;
+}
 
 /**
  * ST Node Main loop
@@ -48,20 +69,44 @@ var STNode = require('./nodeEngine/ST_Node.js');
  * @ignore
  * 
  */
-var stNode = new STNode();
+var stNode = new STNode(_nOptions);
 
 try {
 
-	stNode._devMode = devMode;
+	try {
+		stNode.init_Node();
+	} catch (e) {
+		// TODO: handle exception
+		throw "Cannot initialize ST Node. " + e;
+	}
 
-	stNode.init_Node();
+	try {
+		stNode.init_NodeNetManager();
+	} catch (e) {
+		// TODO: handle exception
+		throw "Cannot initialize Node Net manager. " + e;
+	}
 
-	stNode.init_NodeNetManager();
-	stNode.init_NodeNetService();
+	try {
+		stNode.init_NodeNetService();
+	} catch (e) {
+		// TODO: handle exception
+		throw "Cannot initialize Node Net service. " + e;
+	}
 
-	stNode.init_NodeCOMSystem();
+	try {
+		stNode.init_NodeCOMSystem();
+	} catch (e) {
+		// TODO: handle exception
+		throw "Cannot initialize Node COM System. " + e;
+	}
 
-	stNode.init_MiniCLI();
+	try {
+		stNode.init_MiniCLI();
+	} catch (e) {
+		// TODO: handle exception
+		throw "Cannot initialize MiniCLI. " + e;
+	}
 } catch (e) {
 
 	// TODO: handle exception

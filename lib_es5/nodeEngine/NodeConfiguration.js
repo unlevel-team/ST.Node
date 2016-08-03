@@ -101,17 +101,31 @@ var NodeConfiguration = function () {
   }
 
   /**
-   * Read file
+   * Read configuration from file
+   * 
+   * @param {object} options - Options object
+   * @param {string} [options.configFile] - configuration file path
+   * 
    */
 
 
   _createClass(NodeConfiguration, [{
     key: "readFile",
-    value: function readFile() {
+    value: function readFile(options) {
+
+      if (options === undefined) {
+        options = {};
+      }
+
+      var _configFile = NodeConfiguration_CONSTANTS.configFile;
+      if (options.configFile !== undefined) {
+        _configFile = options.configFile;
+      }
+
       var fs = require('fs');
 
       try {
-        var obj = JSON.parse(fs.readFileSync(NodeConfiguration_CONSTANTS.configFile, 'utf8'));
+        var obj = JSON.parse(fs.readFileSync(_configFile, 'utf8'));
         this.config = obj;
       } catch (e) {
         // TODO: handle exception

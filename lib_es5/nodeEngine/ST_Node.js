@@ -92,10 +92,19 @@ var STNode = function () {
   * @constructs STNode
   */
 
-	function STNode() {
+	function STNode(options) {
 		_classCallCheck(this, STNode);
 
+		if (options === undefined) {
+			options = {};
+		}
+
 		var stNode = this;
+		stNode._config = {};
+
+		if (options.config !== undefined) {
+			stNode._config = options.config;
+		}
 
 		stNode.nodeConfiguration = null;
 
@@ -150,20 +159,23 @@ var STNode = function () {
 		key: 'loadConfig',
 		value: function loadConfig() {
 
-			var stNode = this;
+			var _stNode = this;
+			var _config = _stNode._config;
 
-			if (stNode.nodeConfiguration !== null) {
+			if (_stNode.nodeConfiguration !== null) {
 				throw 'Node configuration is loaded.';
 			}
 
 			// --- ~~ --- ~~ --- ~~ --- ~~ ---
 			// Node configuration
 			// -------------------------------------------------------------------------------|\/|---
-			stNode.nodeConfiguration = new NodeConfiguration();
+			_stNode.nodeConfiguration = new NodeConfiguration();
 
-			stNode.nodeConfiguration.readFile();
+			_stNode.nodeConfiguration.readFile({
+				'configFile': _config.configfile
+			});
 
-			if (stNode.nodeConfiguration.config === null) {
+			if (_stNode.nodeConfiguration.config === null) {
 
 				console.log('Error in configuration'); // TODO REMOVE DEBUG LOG
 
@@ -173,7 +185,7 @@ var STNode = function () {
 
 			console.log('<*> ST Node'); // TODO REMOVE DEBUG LOG
 			console.log(' <~~~> nodeConfiguration'); // TODO REMOVE DEBUG LOG
-			console.log(stNode.nodeConfiguration.config); // TODO REMOVE DEBUG LOG
+			console.log(_stNode.nodeConfiguration.config); // TODO REMOVE DEBUG LOG
 			//-------------------------------------------------------------------------------|/\|---
 		}
 
@@ -374,17 +386,17 @@ var STNode = function () {
 		key: 'init_MiniCLI',
 		value: function init_MiniCLI() {
 
-			var stNode = this;
+			var _stNode = this;
 
-			if (stNode.miniCLI !== null) {
+			if (_stNode.miniCLI !== null) {
 				throw 'Mini CLI initialized.';
 			}
 
-			stNode.miniCLI = readline.createInterface(process.stdin, process.stdout);
-			stNode.miniCLI.setPrompt('ST.Node> ');
-			stNode.miniCLI.prompt();
+			_stNode.miniCLI = readline.createInterface(process.stdin, process.stdout);
+			_stNode.miniCLI.setPrompt('ST.Node> ');
+			_stNode.miniCLI.prompt();
 
-			stNode.miniCLI.on('line', function (line) {
+			_stNode.miniCLI.on('line', function (line) {
 				var line_ = line.trim();
 				var _line_ = line_.split(" ");
 				if (_line_.length > 1) {
@@ -397,7 +409,11 @@ var STNode = function () {
 					//		        break;
 
 					case 'exit':
-						stNode._byebye();
+						_stNode._byebye();
+						break;
+
+					case 'whoami':
+						console.log('<*>Node ID: ' + _stNode.nodeConfiguration.config.node.nodeID);
 						break;
 
 					case 'sensor':
@@ -406,14 +422,14 @@ var STNode = function () {
 
 						if (_line_.length === 1) {
 							console.log('<*>Sensor List');
-							console.log(stNode.sensorsManager.sensorList);
+							console.log(_stNode.sensorsManager.sensorsList);
 						} else {
 
 							switch (_line_[1]) {
 								case 'start':
 									console.log('<*>Sensor Start');
 
-									sensorSearch = stNode.sensorsManager.getSensorByID(_line_[2]);
+									sensorSearch = _stNode.sensorsManager.getSensorByID(_line_[2]);
 									if (sensorSearch.STsensor === null) {
 										console.log(' <EEE>Sensor not found');
 									}
@@ -430,7 +446,7 @@ var STNode = function () {
 								case 'stop':
 									console.log('<*>Sensor Stop');
 
-									sensorSearch = stNode.sensorsManager.getSensorByID(_line_[2]);
+									sensorSearch = _stNode.sensorsManager.getSensorByID(_line_[2]);
 									if (sensorSearch.STsensor === null) {
 										console.log(' <EEE>Sensor not found');
 									}
@@ -459,9 +475,9 @@ var STNode = function () {
 						break;
 				}
 
-				stNode.miniCLI.prompt();
+				_stNode.miniCLI.prompt();
 			}).on('close', function () {
-				stNode._byebye();
+				_stNode._byebye();
 			});
 		}
 	}]);
