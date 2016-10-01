@@ -19,6 +19,12 @@ gulp.task('docs', function(done) {
     child_exec('node ./node_modules/jsdoc/jsdoc.js -c ./jsdoc_conf.json', undefined, done);
 });
 
+gulp.task('updateLibs', function(done) {
+//  child_exec('node ./node_modules/jsdoc/jsdoc.js ./lib -c ./jsdoc.json', undefined, done);
+  child_exec('npm install --production st.engines st.network', undefined, done);
+});
+
+
 
 gulp.task('babel', function () {
     return gulp.src(paths.es6)
