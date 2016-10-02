@@ -39,55 +39,17 @@
 			}
 		},
 		
+		
 		{
 		"id" : "dummy01",
 		"type" : "vsensor",
-		"enabled": false,
-		"loopTime" : 300, 
-		"options" : {
-			"sensorEngineURI_a" : "st:engines:config/[type=module][moduleName=st.engines][method=baseEngine][ngn=SimpleLoop]",
-			"sensorEngineURI_b" : "st:engines:config/[type=module][moduleName=my.module][method=ngnInterface]",
-			"sensorEngineURI_c" : "st:engines:config/[type=file][method=ngnInterface]",
-			
-			"sensorEngineURL" : "./stSensors/stSensor_Dummy01.js",
-			
-			"ticks" : 3,
-			"showTime" : true,
-			"showDeltaTime" : true
-			}
-		},
-		
-		{
-		"id" : "dummy01alien",
-		"type" : "vsensor",
-		"enabled": false,
-		"loopTime" : 300, 
-		"options" : {
-		
-			"engineIRI" : "st:engines:config/[type=file][method=ngnInterfaceAlien]",
-			"engineURL" : "../stSensors/stSensor_Dummy01.js",
-			
-			"ticks" : 3,
-			"showTime" : true,
-			"showDeltaTime" : true
-			}
-		}, 
-		
-		
-		{
-		"id" : "dummy02",
-		"type" : "vsensor",
 		"enabled": true,
-		"loopTime" : 300, 
+		"loopTime" : 300,
 		"options" : {
 		
 			"engineIRI" : "st:engines:config/[type=file][method=ngnInterface]",
-			"engineURL" : "../stSensors/stSensor_Dummy02.js",
-			
-			"bngnOptions": {
-				"loopTime": 300
-			},
-				
+			"engineURL" : "../stSensors/stSensor_Dummy01.js",
+
 			"ticks" : 3,
 			"showTime" : true,
 			"showDeltaTime" : true
