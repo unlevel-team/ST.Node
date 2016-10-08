@@ -76,13 +76,30 @@
 		},
 		
 		{
-		"id" : "dummy01",
+		"id" : "dummy01OLD",
 		"type" : "vactuator",
-		"enabled": true,
+		"enabled": false,
 		"loopTime" : 150,
 		"options" : {
 			"actuatorEngineURL" : "./stActuators/stActuator_Dummy01.js",
 			"ticks" : 2,
+			"showTime" : true,
+			"showDeltaTime" : true
+			}
+		},
+		
+		
+		{
+		"id" : "dummy01",
+		"type" : "vactuator",
+		"enabled": true,
+		"loopTime" : 300,
+		"options" : {
+		
+			"engineIRI" : "st:engines:config/[type=file][method=ngnInterface]",
+			"engineURL" : "../stActuators/stActuator_Dummy01.js",
+
+			"ticks" : 3,
 			"showTime" : true,
 			"showDeltaTime" : true
 			}
