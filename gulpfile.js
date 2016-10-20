@@ -21,7 +21,7 @@ gulp.task('docs', function(done) {
 
 gulp.task('updateLibs', function(done) {
 //  child_exec('node ./node_modules/jsdoc/jsdoc.js ./lib -c ./jsdoc.json', undefined, done);
-  child_exec('npm install --production st.engines st.network', undefined, done);
+  child_exec('npm install --production st.engines st.network st.ngn.customdummy01', undefined, done);
 });
 
 

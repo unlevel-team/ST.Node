@@ -29,7 +29,8 @@
     "socket.io-client": "~1.4",
     "source-map-support": "*",
     "st.engines": "file:../NLVL_STEngines/",
-    "st.network": "file:../NLVL_STNetwork/"
+    "st.network": "file:../NLVL_STNetwork/",
+    "st.ngn.customdummy01": "file:../NLVL_STEngineCustomDummy01/"
   },
   "devDependencies": {
     "babel-preset-es2015": "*",

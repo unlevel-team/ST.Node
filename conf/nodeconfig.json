@@ -54,6 +54,23 @@
 			"showTime" : true,
 			"showDeltaTime" : true
 			}
+		},
+		
+		
+		{
+		"id" : "dummy02",
+		"type" : "vsensor",
+		"enabled": true,
+		"loopTime" : 400,
+		"options" : {
+		
+			"engineIRI" : "st:engines:config/[type=module][method=ngnInterface]",
+			"engineModule" : "st.ngn.customdummy01",
+
+			"ticks" : 3,
+			"showTime" : true,
+			"showDeltaTime" : true
+			}
 		}
 		
 		
