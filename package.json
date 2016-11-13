@@ -29,8 +29,8 @@
     "socket.io-client": "~1.4",
     "source-map-support": "*",
     "st.network": "https://github.com/unlevel-team/ST.Network.git#public",
-    "st.engines": "https://github.com/unlevel-team/ST.Engines.git#public"
-	
+    "st.engines": "https://github.com/unlevel-team/ST.Engines.git#public",
+    "st.ngn.customdummy01": "https://github.com/unlevel-team/STEngine-Custom-Dummy-01.git#public"
   },
   "devDependencies": {
     "babel-preset-es2015": "*",
