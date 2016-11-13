@@ -32,12 +32,13 @@
         {
 		"id" : "sensorKeyb01",
 		"type" : "cylonjs",
-		"enabled": true,
+		"enabled": false,
 		"loopTime" : 300,
 		"options" : {
 			"sensorEngineURL" : "./stSensors/stSensor_Keyboard.js"
 			}
 		},
+		
 		
 		{
 		"id" : "dummy01",
@@ -45,13 +46,34 @@
 		"enabled": true,
 		"loopTime" : 300,
 		"options" : {
-			"sensorEngineURI" : "st:engines:config/[type=module][moduleName=st.engines][method=sensors.getSensor_Dummy01]",
-			"sensorEngineURL" : "./stSensors/stSensor_Dummy01.js",
+		
+			"engineURI" : "st:engines:config/[type=file][method=ngnInterface]",
+			"engineURL" : "../stSensors/stSensor_Dummy01.js",
+
+			"ticks" : 3,
+			"showTime" : true,
+			"showDeltaTime" : true
+			}
+		},
+		
+		
+		{
+		"id" : "dummy02",
+		"type" : "vsensor",
+		"enabled": true,
+		"loopTime" : 400,
+		"options" : {
+		
+			"engineURI" : "st:engines:config/[type=module][method=ngnInterface]",
+			"engineModule" : "st.ngn.customdummy01",
+
 			"ticks" : 3,
 			"showTime" : true,
 			"showDeltaTime" : true
 			}
 		}
+		
+		
 	],
 	
 	
@@ -74,11 +96,30 @@
 		"id" : "dummy01",
 		"type" : "vactuator",
 		"enabled": true,
-		"loopTime" : 150,
+		"loopTime" : 300,
 		"options" : {
-			"actuatorEngineURL" : "./stActuators/stActuator_Dummy01.js",
-			"ticks" : 2,
+		
+			"engineURI" : "st:engines:config/[type=file][method=ngnInterface]",
+			"engineURL" : "../stActuators/stActuator_Dummy01.js",
+
+			"ticks" : 3,
 			"showTime" : true,
+			"showDeltaTime" : true
+			}
+		},
+		
+		{
+		"id" : "dummy02",
+		"type" : "vactuator",
+		"enabled": true,
+		"loopTime" : 400,
+		"options" : {
+		
+			"engineURI" : "st:engines:config/[type=module][method=ngnInterface]",
+			"engineModule" : "st.ngn.customdummy01",
+
+			"ticks" : 5,
+			"showTime" : false,
 			"showDeltaTime" : true
 			}
 		}

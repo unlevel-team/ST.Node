@@ -1,6 +1,6 @@
 /node_modules/
 /.settings/
 /npm-debug.log
-/.project
+.project
 /.tern-project
 /jsdoc_out/
