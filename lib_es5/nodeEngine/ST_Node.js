@@ -262,13 +262,8 @@ var STNode = function () {
 
 			};
 
-			console.log("ST Node Engines System"); // TODO REMOVE DEBUG LOG
-			console.log(STEngines); // TODO REMOVE DEBUG LOG
-
 			try {
 				stNode.ngSYS = STEngines.getEnginesSystem(ngSYSconfig);
-
-				console.log(stNode.ngSYS); // TODO REMOVE DEBUG LOG
 
 				stNode.ngSYS.initialize();
 
