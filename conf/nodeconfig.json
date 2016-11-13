@@ -120,6 +120,23 @@
 			"showTime" : true,
 			"showDeltaTime" : true
 			}
+		},
+		
+		
+		{
+		"id" : "dummy02",
+		"type" : "vactuator",
+		"enabled": true,
+		"loopTime" : 400,
+		"options" : {
+		
+			"engineIRI" : "st:engines:config/[type=module][method=ngnInterface]",
+			"engineModule" : "st.ngn.customdummy01",
+
+			"ticks" : 5,
+			"showTime" : false,
+			"showDeltaTime" : true
+			}
 		}
 	]
 
